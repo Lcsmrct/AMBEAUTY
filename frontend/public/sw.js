@@ -1,4 +1,4 @@
-const CACHE_NAME = 'am-beautyy2-v1.0.0';
+const CACHE_NAME = 'am-beautyy2-v1.0.1';
 const urlsToCache = [
   '/',
   '/static/js/bundle.js',

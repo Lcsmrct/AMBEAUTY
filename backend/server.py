@@ -280,7 +280,8 @@ async def register(user_data: UserRegister):
             "id": user.id,
             "username": user.username,
             "email": user.email,
-            "role": user.role
+            "role": user.role,
+            "instagram": user.instagram
         }
     }
 

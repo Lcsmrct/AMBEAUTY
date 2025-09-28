@@ -177,14 +177,15 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Administration AM.BEAUTYY2</h1>
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground">Admin - {user.username}</span>
-              <Button variant="outline" onClick={handleLogout} data-testid="button-admin-logout">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <h1 className="text-xl sm:text-2xl font-bold">Administration AM.BEAUTYY2</h1>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+              <span className="text-sm text-muted-foreground">Admin - {user.username}</span>
+              <Button variant="outline" size="sm" onClick={handleLogout} data-testid="button-admin-logout">
                 <LogOut className="w-4 h-4 mr-2" />
-                Déconnexion
+                <span className="hidden sm:inline">Déconnexion</span>
+                <span className="sm:hidden">Sortir</span>
               </Button>
             </div>
           </div>

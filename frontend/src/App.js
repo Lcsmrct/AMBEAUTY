@@ -6,7 +6,7 @@ import AccueilPage from './pages/AccueilPage';
 import TarifsPage from './pages/TarifsPage';
 import GaleriePage from './pages/GaleriePage';
 import AvisPage from './pages/AvisPage';
-import AuthFixed from './pages/AuthFixed';
+import Auth from './pages/Auth';
 import ClientDashboard from './pages/ClientDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 

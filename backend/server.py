@@ -32,9 +32,75 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Database connection
-client = MongoClient(MONGO_URL)
-db = client.am_beauty
+# Database connection (fallback to in-memory storage if MongoDB is not available)
+try:
+    client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=2000)
+    client.server_info()  # Test connection
+    db = client.am_beauty
+    print("Connected to MongoDB")
+except Exception as e:
+    print(f"MongoDB not available, using in-memory storage: {e}")
+    # Simple in-memory storage as fallback
+    class InMemoryDB:
+        def __init__(self):
+            self.collections = {
+                'users': [],
+                'bookings': [],
+                'media': []
+            }
+        
+        def __getattr__(self, name):
+            if name not in self.collections:
+                self.collections[name] = []
+            return InMemoryCollection(self.collections[name])
+    
+    class InMemoryCollection:
+        def __init__(self, data):
+            self.data = data
+        
+        def find_one(self, query=None):
+            if not query:
+                return self.data[0] if self.data else None
+            for item in self.data:
+                if all(item.get(k) == v for k, v in query.items()):
+                    return item
+            return None
+        
+        def find(self, query=None):
+            if not query:
+                return InMemoryCursor(self.data[:])
+            results = []
+            for item in self.data:
+                if all(item.get(k) == v for k, v in query.items()):
+                    results.append(item)
+            return InMemoryCursor(results)
+        
+        def insert_one(self, doc):
+            self.data.append(doc)
+            return type('InsertResult', (), {'inserted_id': doc.get('id')})()
+        
+        def update_one(self, query, update):
+            for item in self.data:
+                if all(item.get(k) == v for k, v in query.items()):
+                    if '$set' in update:
+                        item.update(update['$set'])
+                    return type('UpdateResult', (), {'matched_count': 1})()
+            return type('UpdateResult', (), {'matched_count': 0})()
+    
+    class InMemoryCursor:
+        def __init__(self, data):
+            self.data = data
+        
+        def sort(self, key, direction=-1):
+            reverse = direction == -1
+            if isinstance(key, str):
+                self.data.sort(key=lambda x: x.get(key, ''), reverse=reverse)
+            return self
+        
+        def __iter__(self):
+            return iter(self.data)
+    
+    db = InMemoryDB()
 
 # Security
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

@@ -103,7 +103,7 @@ except Exception as e:
     db = InMemoryDB()
 
 # Security
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto", bcrypt__rounds=12)
 security = HTTPBearer()
 
 # Pydantic models

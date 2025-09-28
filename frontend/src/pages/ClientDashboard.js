@@ -219,10 +219,10 @@ export default function ClientDashboard() {
                         onChange={(e) => handleInputChange('service', e.target.value)}
                         data-testid="select-service"
                         required
-                        disabled={loading}
+                        disabled={loading || slotsLoading}
                       >
                         <SelectOption value="">Choisissez votre service</SelectOption>
-                        {services.map((service) => (
+                        {[...new Set(availableSlots.map(slot => slot.service))].map((service) => (
                           <SelectOption key={service} value={service}>
                             {service}
                           </SelectOption>

@@ -191,69 +191,69 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 mb-8">
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Total</p>
-                  <p className="text-2xl font-bold">{stats.totalBookings}</p>
+                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">Total</p>
+                  <p className="text-xl sm:text-2xl font-bold">{stats.totalBookings}</p>
                 </div>
-                <TrendingUp className="w-8 h-8 text-primary" />
+                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">En attente</p>
-                  <p className="text-2xl font-bold text-yellow-600">{stats.pendingBookings}</p>
+                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">En attente</p>
+                  <p className="text-xl sm:text-2xl font-bold text-yellow-600">{stats.pendingBookings}</p>
                 </div>
-                <ClockIcon className="w-8 h-8 text-yellow-600" />
+                <ClockIcon className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Confirmés</p>
-                  <p className="text-2xl font-bold text-green-600">{stats.confirmedBookings}</p>
+                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">Confirmés</p>
+                  <p className="text-xl sm:text-2xl font-bold text-green-600">{stats.confirmedBookings}</p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-green-600" />
+                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
               </div>
             </CardContent>
           </Card>
           
           <Card>
-            <CardContent className="p-6">
+            <CardContent className="p-4 sm:p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm font-medium text-muted-foreground">Terminés</p>
-                  <p className="text-2xl font-bold text-blue-600">{stats.completedBookings}</p>
+                  <p className="text-xs sm:text-sm font-medium text-muted-foreground">Terminés</p>
+                  <p className="text-xl sm:text-2xl font-bold text-blue-600">{stats.completedBookings}</p>
                 </div>
-                <CheckCircle className="w-8 h-8 text-blue-600" />
+                <CheckCircle className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
               </div>
             </CardContent>
           </Card>
         </div>
 
         <Tabs defaultValue="bookings">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="bookings" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-8">
+            <TabsTrigger value="bookings" className="flex items-center gap-2 text-xs sm:text-sm">
               <Calendar className="w-4 h-4" />
-              Gestion des Réservations
+              <span className="hidden sm:inline">Gestion des </span>Réservations
             </TabsTrigger>
-            <TabsTrigger value="slots" className="flex items-center gap-2">
+            <TabsTrigger value="slots" className="flex items-center gap-2 text-xs sm:text-sm">
               <Clock className="w-4 h-4" />
               Créneaux
             </TabsTrigger>
-            <TabsTrigger value="settings" className="flex items-center gap-2">
+            <TabsTrigger value="settings" className="flex items-center gap-2 text-xs sm:text-sm">
               <Settings className="w-4 h-4" />
               Paramètres
             </TabsTrigger>

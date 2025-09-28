@@ -269,6 +269,25 @@ export default function AuthFixed() {
                   />
                 </div>
                 
+                <div className="space-y-2">
+                  <Label htmlFor="register-instagram" className="flex items-center gap-2">
+                    <Instagram className="w-4 h-4" />
+                    Instagram (optionnel)
+                  </Label>
+                  <div className="relative">
+                    <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">@</span>
+                    <Input
+                      id="register-instagram"
+                      value={registerData.instagram}
+                      onChange={(e) => setRegisterData(prev => ({ ...prev, instagram: e.target.value.replace('@', '') }))}
+                      placeholder="votre_handle_instagram"
+                      className="pl-8"
+                      data-testid="input-register-instagram"
+                      disabled={loading}
+                    />
+                  </div>
+                </div>
+                
                 <Button 
                   type="submit" 
                   className="w-full rounded-full" 

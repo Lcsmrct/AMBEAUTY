@@ -76,7 +76,7 @@ export default function Services() {
               <Card className="overflow-hidden hover-elevate transition-transform duration-300 h-full">
                 <div className="relative p-6">
                   {service.popular && (
-                    <Badge className="absolute top-4 right-4 bg-accent-gold text-black">
+                    <Badge className="absolute top-4 right-4 bg-pink-300 text-black">
                       Populaire
                     </Badge>
                   )}

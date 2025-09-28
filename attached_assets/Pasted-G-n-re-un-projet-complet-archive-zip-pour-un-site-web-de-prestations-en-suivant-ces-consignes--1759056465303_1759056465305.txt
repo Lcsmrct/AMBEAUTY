@@ -1,0 +1,65 @@
+Génère un projet complet (archive zip) pour un site web de prestations, en suivant ces consignes :
+
+1) Stack technique
+- Frontend : React + TailwindCSS + Framer Motion pour animations modernes et fluides.
+- Backend : Node.js + Express.
+- Base de données : MongoDB (Mongoose).
+- Auth : JWT + bcrypt.
+- Upload média : multer (stockage local /uploads).
+- Axios pour appels API côté frontend.
+
+2) Fonctionnalités
+A. Authentification
+- Inscription / connexion (register/login).
+- JWT stocké côté client (localStorage).
+- Middleware backend pour vérifier token.
+- Rôles : user et admin.
+
+B. Réservations
+- Modèle Booking { userId, name, date, time, service, notes, status }.
+- Endpoints : créer réservation (POST /api/bookings), voir ses réservations (/me), admin voir toutes, admin modifier statut.
+- Validation minimale (date future, champs requis).
+
+C. Galerie Média
+- Upload image/vidéo (POST /api/media/upload).
+- Listing public GET /api/media.
+- Stockage en local (/uploads), exposé statiquement.
+- Frontend : grille responsive avec hover animation, ouverture en modal avec transition.
+
+D. Pages frontend
+- Accueil (Hero section avec background dégradé + animation Framer Motion pour titres et boutons CTA).
+- Auth (login/register form).
+- Tableau de bord utilisateur : réserver + voir ses réservations.
+- Admin dashboard : gérer toutes réservations, changer statut.
+- Galerie média avec animations (fade-in, zoom au hover, modal animé).
+- Footer + page contact.
+
+3) Thème visuel « flyer moderne »
+- Palette : primary #FF3B30, accent #FFD60A, dark #0B1020, background #F7F7F7.
+- Typographie impactante (titres XXL, bold, lisibles).
+- Style moderne : coins arrondis (2xl), boutons pills (rounded-full), ombres douces, transitions fluides.
+- Animations :
+  - Fade-in et slide-in avec Framer Motion.
+  - Hover effects (scale-up, rotation légère).
+  - Hero CTA avec effet "pulse" ou "bounce".
+  - Modal galerie avec effet zoom + backdrop blur.
+
+4) Livraison et structure
+- Fournir une archive zip `sitecomplet_modernflyer.zip` avec :
+  - /server : Express backend (routes, models, middleware, .env.example, seed.js).
+  - /client : React frontend avec Tailwind + Framer Motion.
+  - README.md racine avec instructions d’installation et lancement.
+- README doit contenir :
+  - Exemple `.env` (MONGO_URI, PORT=4000, JWT_SECRET, UPLOAD_DIR=./uploads).
+  - Scripts npm pour démarrer (`npm run dev` côté server, `npm start` côté client).
+  - Identifiants admin par défaut (email: admin@example.com, password: Admin123!).
+  - Exemples de requêtes API (login, réservation, upload).
+- Inclure quelques données de seed (admin user, 2-3 médias fictifs).
+
+5) Exigences supplémentaires
+- Code clair, commenté.
+- Tous les fichiers doivent être complets et prêts à lancer.
+- Animations intégrées avec Framer Motion (pas seulement placeholders).
+- Le site doit donner une impression **ultra-moderne**, avec **fluidité, transitions, et esthétique professionnelle type flyer digital**.
+
+C’est tout. Génère ce projet complet.

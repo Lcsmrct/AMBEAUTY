@@ -94,10 +94,10 @@ export default function AdminDashboard() {
 
   const handleCreateSlot = async (e) => {
     e.preventDefault();
-    if (!newSlot.date || !newSlot.time || !newSlot.service) {
+    if (!newSlot.date || !newSlot.time) {
       toast({
         title: "Erreur",
-        description: "Tous les champs sont requis",
+        description: "Date et heure sont requis",
         variant: "error"
       });
       return;

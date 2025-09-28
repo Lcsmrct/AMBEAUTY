@@ -465,7 +465,10 @@ export default function AdminDashboard() {
                                 <span>{slot.time}</span>
                               </div>
                               <div className="text-sm text-gray-600">
-                                <strong>{slot.service}</strong>
+                                <strong>
+                                  {slot.service === 'Tous services' || slot.service === 'Tous les services' ? 
+                                    'Créneau universel (tous services)' : slot.service}
+                                </strong>
                                 {slot.is_booked && (
                                   <Badge variant="error" className="ml-2">Réservé</Badge>
                                 )}

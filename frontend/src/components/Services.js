@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router-dom';
 const services = [
   {
     id: 1,
-    name: "Manucure - Pose américaine/Unie",
+    name: "Pose américaine/Unie",
     description: "Manucure professionnelle américaine ou couleur unie avec vernis premium",
     price: "25€",
     duration: "45 min",
@@ -16,8 +16,8 @@ const services = [
   },
   {
     id: 2,
-    name: "Manucure - Pose américaine/French/Chargée",
-    description: "French manucure élégante ou nail art détaillé avec motifs complexes",
+    name: "Pose en gel",
+    description: "Pose de vernis en gel résistant et brillant, idéal pour une tenue longue durée",
     price: "30€",
     duration: "60 min",
     rating: 4.8,
@@ -36,7 +36,7 @@ const services = [
     id: 4,
     name: "Extension de cils",
     description: "Extensions de cils professionnelles pour un regard spectaculaire et naturel",
-    price: "30€",
+    price: "40€",
     duration: "90 min",
     rating: 5.0,
     popular: true

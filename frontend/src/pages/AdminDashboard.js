@@ -105,7 +105,7 @@ export default function AdminDashboard() {
 
     try {
       await timeSlotsAPI.create(newSlot);
-      setNewSlot({ date: '', time: '', service: 'Manucure' });
+      setNewSlot({ date: '', time: '', service: 'Pose américaine/Unie' });
       fetchTimeSlots();
       toast({
         title: "Créneau créé",

@@ -159,7 +159,7 @@ class MediaItem(BaseModel):
 # Helper functions
 def verify_password(plain_password, hashed_password):
     # Truncate password to 72 bytes for bcrypt compatibility
-    password_bytes = plain_password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+    password_bytes = plain_password.encode('utf-8')[:72]
     return pwd_context.verify(password_bytes, hashed_password)
 
 def hash_password(password):

@@ -423,6 +423,83 @@ export default function ClientDashboard() {
               </Card>
             </motion.div>
           </TabsContent>
+
+          <TabsContent value="profile">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card className="max-w-2xl mx-auto">
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <User className="w-5 h-5" />
+                    Mon Profil
+                  </CardTitle>
+                  <CardDescription>Gérez vos informations personnelles</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleProfileUpdate} className="space-y-6">
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-username" className="flex items-center gap-2">
+                        <User className="w-4 h-4" />
+                        Nom complet
+                      </Label>
+                      <Input
+                        id="profile-username"
+                        value={profileData.username}
+                        onChange={(e) => setProfileData(prev => ({ ...prev, username: e.target.value }))}
+                        placeholder="Votre nom complet"
+                        data-testid="input-profile-username"
+                        disabled={profileLoading}
+                      />
+                    </div>
+
+                    <div className="space-y-2">
+                      <Label htmlFor="profile-instagram" className="flex items-center gap-2">
+                        <Instagram className="w-4 h-4" />
+                        Instagram (optionnel)
+                      </Label>
+                      <div className="relative">
+                        <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground">@</span>
+                        <Input
+                          id="profile-instagram"
+                          value={profileData.instagram}
+                          onChange={(e) => setProfileData(prev => ({ ...prev, instagram: e.target.value.replace('@', '') }))}
+                          placeholder="votre_handle_instagram"
+                          className="pl-8"
+                          data-testid="input-profile-instagram"
+                          disabled={profileLoading}
+                        />
+                      </div>
+                      <p className="text-sm text-muted-foreground">
+                        Partagez votre Instagram pour que nous puissions vous taguer dans nos publications
+                      </p>
+                    </div>
+
+                    <div className="bg-muted/50 p-4 rounded-lg">
+                      <h4 className="font-medium mb-2">Informations du compte</h4>
+                      <div className="text-sm text-muted-foreground space-y-1">
+                        <p><strong>Email:</strong> {user?.email}</p>
+                        <p><strong>Rôle:</strong> {user?.role === 'admin' ? 'Administrateur' : 'Client'}</p>
+                        <p><strong>Membre depuis:</strong> {user?.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR') : 'N/A'}</p>
+                      </div>
+                    </div>
+
+                    <Button 
+                      type="submit" 
+                      size="lg" 
+                      className="w-full rounded-full"
+                      data-testid="button-update-profile"
+                      disabled={profileLoading}
+                    >
+                      {profileLoading ? "Mise à jour..." : "Mettre à jour mon profil"}
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
         </Tabs>
       </div>
     </div>

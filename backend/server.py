@@ -502,9 +502,15 @@ async def get_all_bookings(current_user: dict = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Admin access required")
     
     bookings = list(db.bookings.find().sort("created_at", -1))
-    # Remove MongoDB _id field
+    # Remove MongoDB _id field and enrich with user data
     for booking in bookings:
         booking.pop("_id", None)
+        # Get user info to include Instagram
+        user = db.users.find_one({"id": booking["user_id"]})
+        if user:
+            booking["user_instagram"] = user.get("instagram", "")
+        else:
+            booking["user_instagram"] = ""
     return bookings
 
 @app.put("/api/bookings/{booking_id}")

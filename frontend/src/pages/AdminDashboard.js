@@ -282,48 +282,82 @@ export default function AdminDashboard() {
                           <CardContent className="p-6">
                             <div className="flex justify-between items-start mb-4">
                               <div className="flex-1">
-                                <div className="flex items-center justify-between mb-2">
+                                <div className="flex items-center justify-between mb-3">
                                   <h3 className="font-semibold text-lg">{booking.customer_name}</h3>
                                   {getStatusBadge(booking.status)}
                                 </div>
                                 
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
-                                  <div className="space-y-1">
-                                    <div className="flex items-center gap-2">
-                                      <Mail className="w-3 h-3" />
-                                      {booking.customer_email}
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                      <Phone className="w-3 h-3" />
-                                      {booking.customer_phone}
+                                {/* Informations organisées par sections */}
+                                <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                                  {/* Section Contact */}
+                                  <div className="space-y-2">
+                                    <h4 className="font-medium text-sm text-primary mb-2">📧 Contact</h4>
+                                    <div className="space-y-1 text-sm text-muted-foreground">
+                                      <div className="flex items-center gap-2">
+                                        <Mail className="w-3 h-3 flex-shrink-0" />
+                                        <span className="break-all">{booking.customer_email}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Phone className="w-3 h-3 flex-shrink-0" />
+                                        <span>{booking.customer_phone}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Instagram className="w-3 h-3 flex-shrink-0" />
+                                        <span>
+                                          {booking.user_instagram ? 
+                                            `@${booking.user_instagram}` : 
+                                            <span className="text-gray-400 italic">Non renseigné</span>
+                                          }
+                                        </span>
+                                      </div>
                                     </div>
                                   </div>
                                   
-                                  <div className="space-y-1">
-                                    <div className="flex items-center gap-2">
-                                      <Calendar className="w-3 h-3" />
-                                      {new Date(booking.date).toLocaleDateString('fr-FR')}
+                                  {/* Section Rendez-vous */}
+                                  <div className="space-y-2">
+                                    <h4 className="font-medium text-sm text-primary mb-2">📅 Créneau</h4>
+                                    <div className="space-y-1 text-sm text-muted-foreground">
+                                      <div className="flex items-center gap-2">
+                                        <Calendar className="w-3 h-3 flex-shrink-0" />
+                                        <span>{new Date(booking.date).toLocaleDateString('fr-FR', { 
+                                          weekday: 'long', 
+                                          day: 'numeric', 
+                                          month: 'long',
+                                          year: 'numeric'
+                                        })}</span>
+                                      </div>
+                                      <div className="flex items-center gap-2">
+                                        <Clock className="w-3 h-3 flex-shrink-0" />
+                                        <span className="font-medium">{booking.time}</span>
+                                      </div>
                                     </div>
-                                    <div className="flex items-center gap-2">
-                                      <Clock className="w-3 h-3" />
-                                      {booking.time}
+                                  </div>
+                                  
+                                  {/* Section Service */}
+                                  <div className="space-y-2">
+                                    <h4 className="font-medium text-sm text-primary mb-2">✨ Service</h4>
+                                    <div className="space-y-1">
+                                      <p className="font-medium text-foreground bg-primary/10 px-3 py-1 rounded-lg text-sm">
+                                        {booking.service}
+                                      </p>
                                     </div>
                                   </div>
                                 </div>
                                 
-                                <div className="mt-3">
-                                  <p className="font-medium text-primary">{booking.service}</p>
-                                  {booking.notes && (
-                                    <p className="text-sm text-muted-foreground mt-1">
-                                      <strong>Notes:</strong> {booking.notes}
+                                {/* Notes */}
+                                {booking.notes && (
+                                  <div className="mt-4 p-3 bg-muted/30 rounded-lg border-l-2 border-l-accent-gold">
+                                    <h4 className="font-medium text-sm text-primary mb-1">💬 Notes du client</h4>
+                                    <p className="text-sm text-muted-foreground italic">
+                                      "{booking.notes}"
                                     </p>
-                                  )}
-                                </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                             
                             {booking.status === 'pending' && (
-                              <div className="flex gap-2">
+                              <div className="flex flex-wrap gap-2 mt-4 pt-4 border-t border-border">
                                 <Button 
                                   size="sm" 
                                   onClick={() => updateBookingStatus(booking.id, 'confirmed')}
@@ -346,15 +380,17 @@ export default function AdminDashboard() {
                             )}
                             
                             {booking.status === 'confirmed' && (
-                              <Button 
-                                size="sm" 
-                                onClick={() => updateBookingStatus(booking.id, 'completed')}
-                                className="bg-blue-600 hover:bg-blue-700"
-                                data-testid={`button-complete-${booking.id}`}
-                              >
-                                <CheckCircle className="w-3 h-3 mr-1" />
-                                Marquer comme terminé
-                              </Button>
+                              <div className="mt-4 pt-4 border-t border-border">
+                                <Button 
+                                  size="sm" 
+                                  onClick={() => updateBookingStatus(booking.id, 'completed')}
+                                  className="bg-blue-600 hover:blue-700"
+                                  data-testid={`button-complete-${booking.id}`}
+                                >
+                                  <CheckCircle className="w-3 h-3 mr-1" />
+                                  Marquer comme terminé
+                                </Button>
+                              </div>
                             )}
                           </CardContent>
                         </Card>

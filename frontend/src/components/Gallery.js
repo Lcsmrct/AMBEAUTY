@@ -220,9 +220,9 @@ export default function Gallery() {
 
         {/* Modal */}
         <AnimatePresence>
-          {isModalOpen && selectedImage && (
+          {isModalOpen && selectedMedia && (
             <motion.div
-              className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm"
+              className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-sm"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
@@ -245,19 +245,39 @@ export default function Gallery() {
                   <X className="h-6 w-6" />
                 </Button>
 
-                <img
-                  src={selectedImage.url}
-                  alt={selectedImage.original_name}
-                  className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-                />
+                {/* Titre et catégorie */}
+                <div className="absolute top-4 left-4 z-10">
+                  <h3 className="text-white text-lg font-semibold mb-1">
+                    {selectedMedia.original_name}
+                  </h3>
+                  <Badge variant="secondary">
+                    {categories.find(cat => cat.id === selectedMedia.category)?.name || selectedMedia.category}
+                  </Badge>
+                </div>
+
+                {selectedMedia.media_type === 'video' ? (
+                  <video
+                    src={selectedMedia.url}
+                    className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                    controls
+                    autoPlay
+                    loop
+                  />
+                ) : (
+                  <img
+                    src={selectedMedia.url}
+                    alt={selectedMedia.original_name}
+                    className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
+                  />
+                )}
 
                 {/* Navigation Arrows */}
                 <Button
                   variant="ghost"
                   size="icon"
                   className="absolute left-4 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/20"
-                  onClick={() => navigateImage('prev')}
-                  data-testid="button-prev-image"
+                  onClick={() => navigateMedia('prev')}
+                  data-testid="button-prev-media"
                 >
                   <ChevronLeft className="h-8 w-8" />
                 </Button>
@@ -266,8 +286,8 @@ export default function Gallery() {
                   variant="ghost"
                   size="icon"
                   className="absolute right-4 top-1/2 transform -translate-y-1/2 text-white hover:bg-white/20"
-                  onClick={() => navigateImage('next')}
-                  data-testid="button-next-image"
+                  onClick={() => navigateMedia('next')}
+                  data-testid="button-next-media"
                 >
                   <ChevronRight className="h-8 w-8" />
                 </Button>

@@ -491,8 +491,14 @@ async def upload_media(file: UploadFile = File(...), category: str = "general", 
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
+    # Check file type
+    allowed_extensions = {'jpg', 'jpeg', 'png', 'gif', 'webp', 'mp4', 'mov', 'avi', 'mkv'}
+    file_extension = file.filename.split(".")[-1].lower() if "." in file.filename else "jpg"
+    
+    if file_extension not in allowed_extensions:
+        raise HTTPException(status_code=400, detail="Type de fichier non supporté")
+    
     # Generate unique filename
-    file_extension = file.filename.split(".")[-1] if "." in file.filename else "jpg"
     filename = f"{str(uuid.uuid4())}.{file_extension}"
     file_path = Path(UPLOAD_DIR) / filename
     
@@ -501,24 +507,41 @@ async def upload_media(file: UploadFile = File(...), category: str = "general", 
         content = await file.read()
         buffer.write(content)
     
+    # Determine media type
+    video_extensions = {'mp4', 'mov', 'avi', 'mkv'}
+    media_type = "video" if file_extension in video_extensions else "image"
+    
     # Save to database
     media_item = MediaItem(
         filename=filename,
         original_name=file.filename,
         category=category
     )
+    # Add media type to the dict
+    media_dict = media_item.dict()
+    media_dict["media_type"] = media_type
     
-    db.media.insert_one(media_item.dict())
+    db.media.insert_one(media_dict)
     
-    return {"message": "File uploaded successfully", "filename": filename}
+    return {"message": "File uploaded successfully", "filename": filename, "media_type": media_type}
 
 @app.get("/api/media")
-async def get_media():
-    media_items = list(db.media.find().sort("uploaded_at", -1))
+async def get_media(category: Optional[str] = None):
+    query = {}
+    if category:
+        query["category"] = category
+    
+    media_items = list(db.media.find(query).sort("uploaded_at", -1))
     # Remove MongoDB _id field
     for item in media_items:
         item.pop("_id", None)
     return media_items
+
+@app.get("/api/media/categories")
+async def get_media_categories():
+    """Get all available media categories"""
+    categories = ["french-manucure", "nail-art", "pose-gel", "extensions-cils", "soins-pieds"]
+    return {"categories": categories}
 
 # Serve uploaded files
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")

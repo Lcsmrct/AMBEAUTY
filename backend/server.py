@@ -87,6 +87,13 @@ except Exception as e:
                         item.update(update['$set'])
                     return type('UpdateResult', (), {'matched_count': 1})()
             return type('UpdateResult', (), {'matched_count': 0})()
+        
+        def delete_one(self, query):
+            for i, item in enumerate(self.data):
+                if all(item.get(k) == v for k, v in query.items()):
+                    del self.data[i]
+                    return type('DeleteResult', (), {'deleted_count': 1})()
+            return type('DeleteResult', (), {'deleted_count': 0})()
     
     class InMemoryCursor:
         def __init__(self, data):
@@ -124,6 +131,9 @@ class UserRegister(BaseModel):
     username: str
     email: str
     password: str
+
+class UserUpdate(BaseModel):
+    role: str
 
 class Booking(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
@@ -178,24 +188,20 @@ class TimeSlotUpdate(BaseModel):
 
 # Helper functions
 def verify_password(plain_password, hashed_password):
-    # Ensure password is string and truncate to 72 characters for bcrypt compatibility
     password_str = str(plain_password)[:72] if plain_password else ""
     try:
         return pwd_context.verify(password_str, hashed_password)
     except Exception as e:
         print(f"Error verifying password with bcrypt: {e}")
-        # Fallback to simple hash verification if bcrypt fails
         import hashlib
         return hashlib.sha256(password_str.encode()).hexdigest() == hashed_password
 
 def hash_password(password):
-    # Ensure password is string and truncate to 72 characters for bcrypt compatibility
     password_str = str(password)[:72] if password else ""
     try:
         return pwd_context.hash(password_str)
     except Exception as e:
         print(f"Error hashing password: {e}")
-        # Fallback to simple hash if bcrypt fails
         import hashlib
         return hashlib.sha256(password_str.encode()).hexdigest()
 
@@ -227,7 +233,17 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 @app.on_event("startup")
 async def startup_event():
     print("Backend API started successfully")
-    print("You can create an admin account through registration with role assignment")
+    # Create admin user if not exists
+    admin_user = db.users.find_one({"email": "admin@ambeauty.com"})
+    if not admin_user:
+        admin = User(
+            username="admin",
+            email="admin@ambeauty.com", 
+            password=hash_password("admin123456"),
+            role="admin"
+        )
+        db.users.insert_one(admin.dict())
+        print("Admin user created: admin@ambeauty.com / admin123456")
 
 # Authentication routes
 @app.post("/api/auth/register")
@@ -290,21 +306,140 @@ async def get_me(current_user: dict = Depends(get_current_user)):
         "role": current_user["role"]
     }
 
+# User management routes (admin only)
+@app.put("/api/users/{user_id}")
+async def update_user_role(user_id: str, user_update: UserUpdate, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = db.users.update_one(
+        {"id": user_id},
+        {"$set": {"role": user_update.role}}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    return {"message": "User role updated successfully"}
+
+# Time slot routes
+@app.post("/api/time-slots")
+async def create_time_slot(slot_data: TimeSlotCreate, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if time slot already exists
+    existing_slot = db.time_slots.find_one({
+        "date": slot_data.date, 
+        "time": slot_data.time,
+        "service": slot_data.service
+    })
+    if existing_slot:
+        raise HTTPException(status_code=400, detail="Time slot already exists for this service")
+    
+    time_slot = TimeSlot(
+        date=slot_data.date,
+        time=slot_data.time,
+        service=slot_data.service
+    )
+    
+    db.time_slots.insert_one(time_slot.dict())
+    return {"message": "Time slot created successfully", "slot_id": time_slot.id}
+
+@app.get("/api/time-slots")
+async def get_time_slots(service: Optional[str] = None, date: Optional[str] = None):
+    query = {}
+    if service:
+        query["service"] = service
+    if date:
+        query["date"] = date
+    
+    time_slots = list(db.time_slots.find(query).sort("date", 1))
+    # Remove MongoDB _id field
+    for slot in time_slots:
+        slot.pop("_id", None)
+    return time_slots
+
+@app.get("/api/time-slots/available")
+async def get_available_time_slots(service: Optional[str] = None, date: Optional[str] = None):
+    query = {"is_available": True, "is_booked": False}
+    if service:
+        query["service"] = service  
+    if date:
+        query["date"] = date
+    
+    time_slots = list(db.time_slots.find(query).sort("date", 1))
+    # Remove MongoDB _id field
+    for slot in time_slots:
+        slot.pop("_id", None)
+    return time_slots
+
+@app.put("/api/time-slots/{slot_id}")
+async def update_time_slot(slot_id: str, slot_update: TimeSlotUpdate, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    update_data = {}
+    if slot_update.is_available is not None:
+        update_data["is_available"] = slot_update.is_available
+    if slot_update.is_booked is not None:
+        update_data["is_booked"] = slot_update.is_booked
+    if slot_update.booking_id is not None:
+        update_data["booking_id"] = slot_update.booking_id
+    
+    result = db.time_slots.update_one(
+        {"id": slot_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Time slot not found")
+    
+    return {"message": "Time slot updated successfully"}
+
+@app.delete("/api/time-slots/{slot_id}")
+async def delete_time_slot(slot_id: str, current_user: dict = Depends(get_current_user)):
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = db.time_slots.delete_one({"id": slot_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Time slot not found")
+    
+    return {"message": "Time slot deleted successfully"}
+
 # Booking routes
 @app.post("/api/bookings")
 async def create_booking(booking_data: BookingCreate, current_user: dict = Depends(get_current_user)):
+    # Get the time slot
+    time_slot = db.time_slots.find_one({"id": booking_data.time_slot_id})
+    if not time_slot:
+        raise HTTPException(status_code=404, detail="Time slot not found")
+    
+    if not time_slot["is_available"] or time_slot["is_booked"]:
+        raise HTTPException(status_code=400, detail="Time slot is not available")
+    
+    # Create booking
     booking = Booking(
         user_id=current_user["id"],
         customer_name=booking_data.customer_name,
         customer_email=booking_data.customer_email,
         customer_phone=booking_data.customer_phone,
-        service=booking_data.service,
-        date=booking_data.date,
-        time=booking_data.time,
+        service=time_slot["service"],
+        date=time_slot["date"],
+        time=time_slot["time"],
         notes=booking_data.notes
     )
     
     db.bookings.insert_one(booking.dict())
+    
+    # Mark time slot as booked
+    db.time_slots.update_one(
+        {"id": booking_data.time_slot_id},
+        {"$set": {"is_booked": True, "booking_id": booking.id}}
+    )
+    
     return {"message": "Booking created successfully", "booking_id": booking.id}
 
 @app.get("/api/bookings/me")
@@ -331,13 +466,23 @@ async def update_booking(booking_id: str, booking_update: BookingUpdate, current
     if current_user["role"] != "admin":
         raise HTTPException(status_code=403, detail="Admin access required")
     
+    # Get the booking first
+    booking = db.bookings.find_one({"id": booking_id})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    # Update booking status
     result = db.bookings.update_one(
         {"id": booking_id},
         {"$set": {"status": booking_update.status}}
     )
     
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Booking not found")
+    # If booking is cancelled, free up the time slot
+    if booking_update.status == "cancelled":
+        db.time_slots.update_one(
+            {"booking_id": booking_id},
+            {"$set": {"is_booked": False, "booking_id": None}}
+        )
     
     return {"message": "Booking updated successfully"}
 

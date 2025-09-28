@@ -264,7 +264,8 @@ async def register(user_data: UserRegister):
     user = User(
         username=user_data.username,
         email=user_data.email,
-        password=hash_password(user_data.password)
+        password=hash_password(user_data.password),
+        instagram=user_data.instagram
     )
     
     db.users.insert_one(user.dict())

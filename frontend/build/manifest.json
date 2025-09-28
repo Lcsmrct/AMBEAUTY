@@ -1,0 +1,43 @@
+{
+  "name": "AM.BEAUTYY2 - Salon de Beauté",
+  "short_name": "AM.BEAUTYY2",
+  "description": "Application de réservation pour le salon de beauté AM.BEAUTYY2",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ef4444",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["beauty", "business", "lifestyle"],
+  "shortcuts": [
+    {
+      "name": "Réserver un rendez-vous",
+      "short_name": "Réserver",
+      "description": "Réserver rapidement un nouveau rendez-vous",
+      "url": "/client",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Mes rendez-vous",
+      "short_name": "Mes RDV",
+      "description": "Voir mes rendez-vous à venir",
+      "url": "/client?tab=bookings",
+      "icons": [{ "src": "/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}

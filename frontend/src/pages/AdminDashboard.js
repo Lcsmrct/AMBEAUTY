@@ -415,18 +415,13 @@ export default function AdminDashboard() {
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium mb-2">Service</label>
-                        <select
-                          value={newSlot.service}
-                          onChange={(e) => setNewSlot({...newSlot, service: e.target.value})}
-                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
-                          required
-                        >
-                          <option value="Pose américaine/Unie">Pose américaine/Unie</option>
-                          <option value="Pose en gel">Pose en gel</option>
-                          <option value="Vernis semi-permanent pieds/mains">Vernis semi-permanent pieds/mains</option>
-                          <option value="Extension de cils">Extension de cils</option>
-                        </select>
+                        <label className="block text-sm font-medium mb-2">Type de créneau</label>
+                        <div className="w-full p-3 border border-gray-200 rounded-lg bg-gray-50 text-gray-700">
+                          Créneau universel - Valable pour tous les services
+                        </div>
+                        <p className="text-sm text-muted-foreground mt-1">
+                          Ce créneau pourra être réservé pour n'importe quel service proposé
+                        </p>
                       </div>
                       
                       <Button type="submit" className="w-full" data-testid="button-create-slot">

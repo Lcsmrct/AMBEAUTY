@@ -8,7 +8,7 @@ import Services from './components/Services';
 import Gallery from './components/Gallery';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
-import Auth from './pages/Auth';
+import AuthSimple from './pages/AuthSimple';
 import ClientDashboard from './pages/ClientDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 

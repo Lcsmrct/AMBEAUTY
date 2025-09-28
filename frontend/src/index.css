@@ -70,15 +70,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-outline {
-  border: 1px solid hsl(0, 85%, 59%);
-  color: hsl(0, 85%, 59%);
+  border: 2px solid #d4af37;
+  color: #d4af37;
   background: transparent;
 }
 
 .btn-outline:hover {
-  background-color: hsl(0, 85%, 59%);
+  background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
   color: hsl(0, 0%, 98%);
   transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 /* Card variants */

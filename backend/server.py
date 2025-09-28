@@ -121,6 +121,7 @@ class User(BaseModel):
     email: str
     password: str
     role: str = "user"
+    instagram: str = ""
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 class UserLogin(BaseModel):

@@ -43,6 +43,7 @@ export const authAPI = {
   register: (userData) => api.post('/api/auth/register', userData),
   login: (credentials) => api.post('/api/auth/login', credentials),
   getMe: () => api.get('/api/auth/me'),
+  updateProfile: (profileData) => api.put('/api/auth/profile', profileData),
 };
 
 // Booking API calls

@@ -483,7 +483,11 @@ export default function ClientDashboard() {
                       <div className="text-sm text-muted-foreground space-y-1">
                         <p><strong>Email:</strong> {user?.email}</p>
                         <p><strong>Rôle:</strong> {user?.role === 'admin' ? 'Administrateur' : 'Client'}</p>
-                        <p><strong>Membre depuis:</strong> {user?.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR') : 'N/A'}</p>
+                        <p><strong>Membre depuis:</strong> {user?.created_at ? new Date(user.created_at).toLocaleDateString('fr-FR', { 
+                          day: 'numeric', 
+                          month: 'long', 
+                          year: 'numeric' 
+                        }) : 'Date non disponible'}</p>
                       </div>
                     </div>
 

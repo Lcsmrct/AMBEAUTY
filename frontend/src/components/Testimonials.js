@@ -30,7 +30,7 @@ const testimonials = [
   {
     id: 4,
     name: "Emma Garcia",
-    service: "Soins des Pieds",
+    service: "Vernis semi-permanent",
     rating: 5,
     comment: "Excellent service, très soignée dans son travail. Je reviendrai sans hésiter !",
     avatar: "EG"

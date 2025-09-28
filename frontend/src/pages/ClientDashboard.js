@@ -36,6 +36,7 @@ export default function ClientDashboard() {
       return;
     }
     fetchBookings();
+    fetchAvailableSlots();
   }, [user, navigate]);
 
   const fetchBookings = async () => {

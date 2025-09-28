@@ -13,15 +13,15 @@ import ClientDashboard from './pages/ClientDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 
 // Home page component
-function Home() {
+function HomePage() {
   return (
     <div className="min-h-screen">
       <Header />
       <main>
-        <Hero />
+        <Home />
         <Services />
         <Gallery />
-        <Contact />
+        <Reviews />
       </main>
       <Footer />
     </div>

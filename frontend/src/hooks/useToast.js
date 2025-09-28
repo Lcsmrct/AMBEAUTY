@@ -43,27 +43,30 @@ export const useToast = () => {
   return context;
 };
 
-// Toast Provider Component
-export const ToastProvider = ({ children }) => {
-  const { toasts, removeToast } = useToast();
+// Toast Container Component
+const ToastContainer = ({ toasts, removeToast }) => {
+  const variants = {
+    success: 'bg-green-100 text-green-800 border-green-300',
+    error: 'bg-red-100 text-red-800 border-red-300', 
+    warning: 'bg-yellow-100 text-yellow-800 border-yellow-300',
+    info: 'bg-blue-100 text-blue-800 border-blue-300'
+  };
 
   return (
-    <>
-      {children}
-      <div className="fixed top-4 right-4 z-50 space-y-2">
-        {toasts.map(toast => (
-          <ToastItem 
-            key={toast.id} 
-            toast={toast} 
-            onRemove={() => removeToast(toast.id)} 
-          />
-        ))}
-      </div>
-    </>
+    <div className="fixed top-4 right-4 z-50 space-y-2">
+      {toasts.map(toast => (
+        <ToastItem 
+          key={toast.id} 
+          toast={toast} 
+          onRemove={() => removeToast(toast.id)} 
+          variant={variants[toast.variant || 'info']}
+        />
+      ))}
+    </div>
   );
 };
 
-const ToastItem = ({ toast, onRemove }) => {
+const ToastItem = ({ toast, onRemove, variant }) => {
   const variants = {
     success: 'bg-green-100 text-green-800 border-green-300',
     error: 'bg-red-100 text-red-800 border-red-300', 

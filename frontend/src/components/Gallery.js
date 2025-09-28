@@ -4,63 +4,39 @@ import { Button, LoadingSpinner } from './ui';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { mediaAPI } from '../services/api';
 
-// Placeholder images (these would be replaced with actual uploaded images)
-const placeholderImages = [
+// Vos vraies photos de nail art AM.BEAUTYY2
+const portfolioImages = [
   {
     id: 1,
-    filename: 'placeholder1.jpg',
-    original_name: 'Professional manicure work',
-    category: 'manicure',
-    url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=400&fit=crop'
+    filename: 'french-classic.jpg',
+    original_name: 'French manucure classique',
+    category: 'french-manucure',
+    media_type: 'image',
+    url: 'https://customer-assets.emergentagent.com/job_3b17d939-f009-4be6-ae07-4e5c12ff4e6c/artifacts/svt3ri17_image.png'
   },
   {
     id: 2,
-    filename: 'placeholder2.jpg', 
-    original_name: 'Eyelash extension application',
-    category: 'eyelashes',
-    url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
+    filename: 'nail-art-rose.jpg', 
+    original_name: 'Nail art rose avec motifs',
+    category: 'nail-art',
+    media_type: 'image',
+    url: 'https://customer-assets.emergentagent.com/job_3b17d939-f009-4be6-ae07-4e5c12ff4e6c/artifacts/akjkoxe7_image.png'
   },
   {
     id: 3,
-    filename: 'placeholder3.jpg',
-    original_name: 'Beauty salon atmosphere',
-    category: 'salon',
-    url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=400&fit=crop'
+    filename: 'nail-art-strass.jpg',
+    original_name: 'Design avec strass et motifs',
+    category: 'nail-art',
+    media_type: 'image',
+    url: 'https://customer-assets.emergentagent.com/job_3b17d939-f009-4be6-ae07-4e5c12ff4e6c/artifacts/prucnmov_image.png'
   },
   {
     id: 4,
-    filename: 'placeholder4.jpg',
-    original_name: 'Nail art design',
-    category: 'manicure',
-    url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=400&fit=crop'
-  },
-  {
-    id: 5,
-    filename: 'placeholder5.jpg',
-    original_name: 'Dramatic lash extensions',
-    category: 'eyelashes', 
-    url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
-  },
-  {
-    id: 6,
-    filename: 'placeholder6.jpg',
-    original_name: 'French manicure style',
-    category: 'manicure',
-    url: 'https://images.unsplash.com/photo-1604654894610-df63bc536371?w=400&h=400&fit=crop'
-  },
-  {
-    id: 7,
-    filename: 'placeholder7.jpg',
-    original_name: 'Natural lash enhancement',
-    category: 'eyelashes',
-    url: 'https://images.unsplash.com/photo-1560472354-b33ff0c44a43?w=400&h=400&fit=crop'
-  },
-  {
-    id: 8,
-    filename: 'placeholder8.jpg',
-    original_name: 'Luxury treatment room',
-    category: 'salon',
-    url: 'https://images.unsplash.com/photo-1515377905703-c4788e51af15?w=400&h=400&fit=crop'
+    filename: 'french-pieds.jpg',
+    original_name: 'French manucure pieds et mains',
+    category: 'french-manucure',
+    media_type: 'image',
+    url: 'https://customer-assets.emergentagent.com/job_3b17d939-f009-4be6-ae07-4e5c12ff4e6c/artifacts/69si1b95_image.png'
   }
 ];
 

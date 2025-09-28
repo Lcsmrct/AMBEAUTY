@@ -218,7 +218,7 @@ export default function ClientDashboard() {
 
       <div className="container mx-auto px-4 py-8">
         <Tabs defaultValue="book">
-          <TabsList className="grid w-full grid-cols-2 mb-8">
+          <TabsList className="grid w-full grid-cols-3 mb-8">
             <TabsTrigger value="book" className="flex items-center gap-2">
               <Plus className="w-4 h-4" />
               Nouveau Rendez-vous
@@ -226,6 +226,10 @@ export default function ClientDashboard() {
             <TabsTrigger value="bookings" className="flex items-center gap-2">
               <Calendar className="w-4 h-4" />
               Mes Rendez-vous
+            </TabsTrigger>
+            <TabsTrigger value="profile" className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              Mon Profil
             </TabsTrigger>
           </TabsList>
 

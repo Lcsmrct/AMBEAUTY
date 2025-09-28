@@ -299,10 +299,6 @@ export default function AdminDashboard() {
                                         <span className="break-all">{booking.customer_email}</span>
                                       </div>
                                       <div className="flex items-center gap-2">
-                                        <Phone className="w-3 h-3 flex-shrink-0" />
-                                        <span>{booking.customer_phone}</span>
-                                      </div>
-                                      <div className="flex items-center gap-2">
                                         <Instagram className="w-3 h-3 flex-shrink-0" />
                                         <span>
                                           {booking.user_instagram ? 

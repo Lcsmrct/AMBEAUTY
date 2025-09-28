@@ -164,7 +164,7 @@ def verify_password(plain_password, hashed_password):
 
 def hash_password(password):
     # Truncate password to 72 bytes for bcrypt compatibility
-    password_bytes = password.encode('utf-8')[:72].decode('utf-8', errors='ignore')
+    password_bytes = password.encode('utf-8')[:72]
     return pwd_context.hash(password_bytes)
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):

@@ -22,7 +22,7 @@ const testimonials = [
   {
     id: 3,
     name: "Marie Leroy",
-    service: "Nail Art",
+    service: "Pose américaine/french",
     rating: 5,
     comment: "Très professionnelle et à l'écoute. Le résultat dépasse mes attentes, merci beaucoup !",
     avatar: "ML"

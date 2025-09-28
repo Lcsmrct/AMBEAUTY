@@ -48,13 +48,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .btn-primary {
-  background-color: hsl(0, 85%, 59%);
+  background: linear-gradient(135deg, #d4af37 0%, #ffd700 100%);
   color: hsl(0, 0%, 98%);
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
 }
 
 .btn-primary:hover {
-  background-color: hsl(0, 85%, 54%);
+  background: linear-gradient(135deg, #b8941f 0%, #e6c200 100%);
   transform: scale(1.05);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
 }
 
 .btn-secondary {

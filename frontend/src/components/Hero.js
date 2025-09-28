@@ -35,7 +35,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-6"
         >
-          <Sparkles className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-accent-gold" />
+          <Sparkles className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-pink-300" />
         </motion.div>
 
         <motion.h1 

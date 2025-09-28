@@ -114,15 +114,20 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            {["services", "gallery", "contact"].map((item) => (
+            {[
+              { key: "accueil", label: "Accueil" },
+              { key: "tarifs", label: "Tarifs" },
+              { key: "gallery", label: "Galerie" },
+              { key: "avis", label: "Avis" }
+            ].map((item) => (
               <motion.button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className="block w-full text-left py-2 text-foreground hover:text-primary transition-colors capitalize"
+                key={item.key}
+                onClick={() => scrollToSection(item.key)}
+                className="block w-full text-left py-2 text-foreground hover:text-primary transition-colors"
                 whileHover={{ x: 10 }}
-                data-testid={`link-mobile-${item}`}
+                data-testid={`link-mobile-${item.key}`}
               >
-                {item}
+                {item.label}
               </motion.button>
             ))}
             <Button 

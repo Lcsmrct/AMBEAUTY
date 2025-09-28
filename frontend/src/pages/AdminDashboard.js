@@ -12,7 +12,10 @@ export default function AdminDashboard() {
   const { user, logout } = useAuth();
   const { toast } = useToast();
   const [bookings, setBookings] = useState([]);
+  const [timeSlots, setTimeSlots] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [slotsLoading, setSlotsLoading] = useState(false);
+  const [newSlot, setNewSlot] = useState({ date: '', time: '', service: 'Manucure' });
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {

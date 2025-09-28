@@ -59,7 +59,7 @@ function AppRoutes() {
       <Route path="/tarifs" element={<TarifsPage />} />
       <Route path="/galerie" element={<GaleriePage />} />
       <Route path="/avis" element={<AvisPage />} />
-      <Route path="/auth" element={<AuthFixed />} />
+      <Route path="/auth" element={<Auth />} />
       <Route 
         path="/client" 
         element={

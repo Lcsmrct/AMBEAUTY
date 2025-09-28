@@ -25,9 +25,13 @@ export default function AuthFixed() {
       if (result.success) {
         toast({ title: "Connexion réussie", description: "Redirection vers votre espace...", variant: "success" });
         setTimeout(() => {
-          navigate('/');
+          if (result.user && result.user.role === 'admin') {
+            navigate('/admin');
+          } else {
+            navigate('/client');
+          }
           window.location.reload();
-        }, 1000);
+        }, 1500);
       } else {
         toast({ 
           title: "Erreur de connexion", 

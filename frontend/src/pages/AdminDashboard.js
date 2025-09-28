@@ -373,6 +373,140 @@ export default function AdminDashboard() {
             </motion.div>
           </TabsContent>
 
+          <TabsContent value="slots">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                {/* Formulaire de création de créneaux */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Plus className="w-5 h-5" />
+                      Ajouter un Créneau
+                    </CardTitle>
+                    <CardDescription>Créez de nouveaux créneaux disponibles pour les clients</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <form onSubmit={handleCreateSlot} className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Date</label>
+                        <input
+                          type="date"
+                          value={newSlot.date}
+                          onChange={(e) => setNewSlot({...newSlot, date: e.target.value})}
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
+                          min={new Date().toISOString().split('T')[0]}
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Heure</label>
+                        <input
+                          type="time"
+                          value={newSlot.time}
+                          onChange={(e) => setNewSlot({...newSlot, time: e.target.value})}
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
+                          required
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium mb-2">Service</label>
+                        <select
+                          value={newSlot.service}
+                          onChange={(e) => setNewSlot({...newSlot, service: e.target.value})}
+                          className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
+                          required
+                        >
+                          <option value="Manucure">Manucure</option>
+                          <option value="Extension de cils">Extension de cils</option>
+                          <option value="Pose de vernis">Pose de vernis</option>
+                          <option value="Soin des mains">Soin des mains</option>
+                        </select>
+                      </div>
+                      
+                      <Button type="submit" className="w-full" data-testid="button-create-slot">
+                        <Plus className="w-4 h-4 mr-2" />
+                        Créer le Créneau
+                      </Button>
+                    </form>
+                  </CardContent>
+                </Card>
+
+                {/* Liste des créneaux existants */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Clock className="w-5 h-5" />
+                      Créneaux Existants
+                    </CardTitle>
+                    <CardDescription>Gérez vos créneaux disponibles</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    {slotsLoading ? (
+                      <div className="flex justify-center py-8">
+                        <LoadingSpinner />
+                      </div>
+                    ) : (
+                      <div className="space-y-3 max-h-96 overflow-y-auto">
+                        {timeSlots.map((slot) => (
+                          <div 
+                            key={slot.id} 
+                            className={`flex items-center justify-between p-3 rounded-lg border ${
+                              slot.is_booked ? 'bg-red-50 border-red-200' : 'bg-green-50 border-green-200'
+                            }`}
+                          >
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <Calendar className="w-4 h-4" />
+                                <span className="font-medium">
+                                  {new Date(slot.date).toLocaleDateString('fr-FR')}
+                                </span>
+                                <Clock className="w-4 h-4 ml-2" />
+                                <span>{slot.time}</span>
+                              </div>
+                              <div className="text-sm text-gray-600">
+                                <strong>{slot.service}</strong>
+                                {slot.is_booked && (
+                                  <Badge variant="error" className="ml-2">Réservé</Badge>
+                                )}
+                                {!slot.is_booked && slot.is_available && (
+                                  <Badge variant="success" className="ml-2">Disponible</Badge>
+                                )}
+                              </div>
+                            </div>
+                            
+                            {!slot.is_booked && (
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={() => handleDeleteSlot(slot.id)}
+                                data-testid={`button-delete-slot-${slot.id}`}
+                              >
+                                <Trash2 className="w-3 h-3" />
+                              </Button>
+                            )}
+                          </div>
+                        ))}
+                        
+                        {timeSlots.length === 0 && (
+                          <div className="text-center py-8 text-muted-foreground">
+                            <Clock className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                            <p>Aucun créneau créé pour le moment</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </motion.div>
+          </TabsContent>
+
           <TabsContent value="settings">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

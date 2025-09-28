@@ -137,35 +137,86 @@ export default function Gallery() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 font-serif">
-            Notre Galerie
+            Notre Portfolio
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Découvrez nos dernières réalisations et inspirez-vous pour votre prochain rendez-vous beauté
+            Découvrez nos réalisations AM.BEAUTYY2 - Nail art, French manucure et extensions de cils
           </p>
         </motion.div>
 
+        {/* Filtres par catégorie */}
+        <motion.div 
+          className="flex flex-wrap justify-center gap-4 mb-12"
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          viewport={{ once: true }}
+        >
+          {categories.map((category) => (
+            <Button
+              key={category.id}
+              variant={selectedCategory === category.id ? "primary" : "outline"}
+              size="sm"
+              onClick={() => setSelectedCategory(category.id)}
+              className="rounded-full"
+              data-testid={`filter-${category.id}`}
+            >
+              <Filter className="w-4 h-4 mr-2" />
+              {category.name}
+            </Button>
+          ))}
+        </motion.div>
+
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          {images.map((image, index) => (
+          {filteredMedia.map((media, index) => (
             <motion.div
-              key={image.id}
-              className="aspect-square overflow-hidden rounded-2xl cursor-pointer group"
+              key={media.id}
+              className="aspect-square overflow-hidden rounded-2xl cursor-pointer group relative"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
               viewport={{ once: true }}
               whileHover={{ scale: 1.05 }}
-              onClick={() => openModal(image)}
-              data-testid={`gallery-image-${image.id}`}
+              onClick={() => openModal(media)}
+              data-testid={`gallery-media-${media.id}`}
             >
-              <img 
-                src={image.url}
-                alt={image.original_name}
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                loading="lazy"
-              />
+              {media.media_type === 'video' ? (
+                <>
+                  <video 
+                    src={media.url}
+                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                    muted
+                    loop
+                  />
+                  <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                    <Play className="w-8 h-8 text-white" />
+                  </div>
+                </>
+              ) : (
+                <img 
+                  src={media.url}
+                  alt={media.original_name}
+                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                  loading="lazy"
+                />
+              )}
+              
+              {/* Badge catégorie */}
+              <div className="absolute top-2 left-2">
+                <Badge variant="secondary" className="text-xs">
+                  {categories.find(cat => cat.id === media.category)?.name || media.category}
+                </Badge>
+              </div>
             </motion.div>
           ))}
         </div>
+
+        {filteredMedia.length === 0 && !loading && (
+          <div className="text-center py-12 text-muted-foreground">
+            <Filter className="w-16 h-16 mx-auto mb-4 opacity-50" />
+            <p>Aucune réalisation dans cette catégorie pour le moment.</p>
+          </div>
+        )}
 
         {/* Modal */}
         <AnimatePresence>

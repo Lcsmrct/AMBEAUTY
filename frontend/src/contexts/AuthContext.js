@@ -45,7 +45,7 @@ export const AuthProvider = ({ children }) => {
       setToken(access_token);
       setUser(userData);
       
-      return { success: true };
+      return { success: true, user: userData };
     } catch (error) {
       console.error('Login failed:', error);
       return { 

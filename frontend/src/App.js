@@ -97,14 +97,15 @@ function AppRoutes() {
 // Main App component
 function App() {
   return (
-    <AuthProvider>
-      <Router>
-        <div className="App">
-          <AppRoutes />
-          <ToastContainer />
-        </div>
-      </Router>
-    </AuthProvider>
+    <ToastProvider>
+      <AuthProvider>
+        <Router>
+          <div className="App">
+            <AppRoutes />
+          </div>
+        </Router>
+      </AuthProvider>
+    </ToastProvider>
   );
 }
 

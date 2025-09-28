@@ -12,7 +12,7 @@ const services = [
     price: "25€",
     duration: "45 min",
     rating: 4.9,
-    popular: true
+    popular: false
   },
   {
     id: 2,
@@ -21,7 +21,7 @@ const services = [
     price: "30€",
     duration: "60 min",
     rating: 4.8,
-    popular: false
+    popular: true
   },
   {
     id: 3,

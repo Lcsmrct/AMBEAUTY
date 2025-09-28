@@ -302,7 +302,8 @@ async def login(user_data: UserLogin):
             "id": user["id"],
             "username": user["username"],
             "email": user["email"],
-            "role": user["role"]
+            "role": user["role"],
+            "instagram": user["instagram"]
         }
     }
 

@@ -7,28 +7,28 @@ import { useNavigate } from 'react-router-dom';
 const services = [
   {
     id: 1,
-    name: "Nail Art",
-    description: "Manucure artistique et créative avec designs personnalisés",
-    price: "35€",
-    duration: "60 min",
+    name: "Pose américaine/unie",
+    description: "Manucure professionnelle avec pose d'ongles américaine ou couleur unie",
+    price: "25€",
+    duration: "60 min", 
     rating: 4.9,
     popular: true
   },
   {
     id: 2,
-    name: "Soins des Pieds",
-    description: "Soins complets des pieds avec vernis semi-permanent",
-    price: "25€",
-    duration: "45 min",
+    name: "Pose américaine/french/chargée",
+    description: "Manucure américaine, french ou avec designs plus élaborés",
+    price: "30€",
+    duration: "75 min",
     rating: 4.8,
     popular: true
   },
   {
     id: 3,
-    name: "Pose en gel",
-    description: "Pose de vernis en gel résistant et brillant, idéal pour une tenue longue durée",
-    price: "30€",
-    duration: "60 min",
+    name: "Vernis semi-permanent pieds/mains",
+    description: "Application de vernis semi-permanent longue durée pour mains et pieds",
+    price: "20€",
+    duration: "45 min",
     rating: 4.7,
     popular: false
   },

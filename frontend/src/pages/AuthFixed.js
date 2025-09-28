@@ -84,9 +84,9 @@ export default function AuthFixed() {
           variant: "success"
         });
         setTimeout(() => {
-          navigate('/');
+          navigate('/client');
           window.location.reload();
-        }, 1000);
+        }, 1500);
       } else {
         toast({ 
           title: "Erreur lors de l'inscription", 

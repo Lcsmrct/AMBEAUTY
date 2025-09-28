@@ -96,14 +96,22 @@ export default function ClientDashboard() {
     e.preventDefault();
     setLoading(true);
 
+    if (!formData.selectedSlotId) {
+      toast({
+        title: "Erreur",
+        description: "Veuillez sélectionner un créneau disponible",
+        variant: "error"
+      });
+      setLoading(false);
+      return;
+    }
+
     try {
       await bookingAPI.create({
         customer_name: user.username,
         customer_email: user.email,
         customer_phone: "+33 1 23 45 67 89", // This would be from user profile
-        service: formData.service,
-        date: formData.date,
-        time: formData.time,
+        time_slot_id: formData.selectedSlotId,
         notes: formData.notes
       });
       

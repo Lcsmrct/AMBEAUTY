@@ -1,6 +1,4 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+/* Custom CSS for AM.BEAUTYY2 */
 
 /* Global styles */
 body {
@@ -8,6 +6,8 @@ body {
   line-height: 1.6;
   margin: 0;
   padding: 0;
+  background-color: hsl(0, 0%, 97%);
+  color: hsl(222, 75%, 10%);
 }
 
 h1, h2, h3, h4, h5, h6 {

@@ -81,12 +81,11 @@ export default function ClientDashboard() {
     }));
   };
 
-  // Get available time slots for the selected service and date
+  // Get available time slots for the selected date (les créneaux sont universels maintenant)
   const getAvailableTimesForSelectedServiceAndDate = () => {
     if (!formData.service || !formData.date) return [];
     
     return availableSlots.filter(slot => 
-      slot.service === formData.service && 
       slot.date === formData.date &&
       slot.is_available &&
       !slot.is_booked

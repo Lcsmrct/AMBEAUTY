@@ -202,34 +202,35 @@ export default function ClientDashboard() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <div className="border-b bg-card">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex justify-between items-center">
-            <h1 className="text-2xl font-bold">Espace Client</h1>
-            <div className="flex items-center gap-4">
-              <span className="text-muted-foreground">Bienvenue, {user.username}!</span>
-              <Button variant="outline" onClick={handleLogout} data-testid="button-logout">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+            <h1 className="text-xl sm:text-2xl font-bold">Espace Client</h1>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+              <span className="text-sm text-muted-foreground">Bienvenue, {user.username}!</span>
+              <Button variant="outline" size="sm" onClick={handleLogout} data-testid="button-logout">
                 <LogOut className="w-4 h-4 mr-2" />
-                Déconnexion
+                <span className="hidden sm:inline">Déconnexion</span>
+                <span className="sm:hidden">Sortir</span>
               </Button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <Tabs defaultValue="book">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
-            <TabsTrigger value="book" className="flex items-center gap-2">
+          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-8">
+            <TabsTrigger value="book" className="flex items-center gap-2 text-xs sm:text-sm">
               <Plus className="w-4 h-4" />
-              Nouveau Rendez-vous
+              <span className="hidden sm:inline">Nouveau </span>Rendez-vous
             </TabsTrigger>
-            <TabsTrigger value="bookings" className="flex items-center gap-2">
+            <TabsTrigger value="bookings" className="flex items-center gap-2 text-xs sm:text-sm">
               <Calendar className="w-4 h-4" />
-              Mes Rendez-vous
+              <span className="hidden sm:inline">Mes </span>Rendez-vous
             </TabsTrigger>
-            <TabsTrigger value="profile" className="flex items-center gap-2">
+            <TabsTrigger value="profile" className="flex items-center gap-2 text-xs sm:text-sm">
               <User className="w-4 h-4" />
-              Mon Profil
+              <span className="hidden sm:inline">Mon </span>Profil
             </TabsTrigger>
           </TabsList>
 

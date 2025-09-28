@@ -92,6 +92,57 @@ export default function AdminDashboard() {
     navigate("/");
   };
 
+  const handleCreateSlot = async (e) => {
+    e.preventDefault();
+    if (!newSlot.date || !newSlot.time || !newSlot.service) {
+      toast({
+        title: "Erreur",
+        description: "Tous les champs sont requis",
+        variant: "error"
+      });
+      return;
+    }
+
+    try {
+      await timeSlotsAPI.create(newSlot);
+      setNewSlot({ date: '', time: '', service: 'Manucure' });
+      fetchTimeSlots();
+      toast({
+        title: "Créneau créé",
+        description: "Le nouveau créneau a été ajouté avec succès",
+        variant: "success"
+      });
+    } catch (error) {
+      console.error('Error creating time slot:', error);
+      toast({
+        title: "Erreur",
+        description: error.response?.data?.detail || "Impossible de créer le créneau",
+        variant: "error"
+      });
+    }
+  };
+
+  const handleDeleteSlot = async (slotId) => {
+    if (!window.confirm('Êtes-vous sûr de vouloir supprimer ce créneau ?')) return;
+    
+    try {
+      await timeSlotsAPI.delete(slotId);
+      fetchTimeSlots();
+      toast({
+        title: "Créneau supprimé",
+        description: "Le créneau a été supprimé avec succès",
+        variant: "success"
+      });
+    } catch (error) {
+      console.error('Error deleting time slot:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de supprimer le créneau",
+        variant: "error"
+      });
+    }
+  };
+
   const getStatusBadge = (status) => {
     switch (status) {
       case "confirmed":

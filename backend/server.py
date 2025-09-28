@@ -265,7 +265,7 @@ async def login(user_data: UserLogin):
     # Find user
     user = db.users.find_one({"email": user_data.email})
     if not user or not verify_password(user_data.password, user["password"]):
-        raise HTTPException(status_code=401, detail="Invalid credentials")
+        raise HTTPException(status_code=401, detail="Identifiants incorrects. Vérifiez votre email et mot de passe.")
     
     # Create access token
     access_token = create_access_token(data={"sub": user["id"]})

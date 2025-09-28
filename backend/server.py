@@ -132,6 +132,7 @@ class UserRegister(BaseModel):
     username: str
     email: str
     password: str
+    instagram: str = ""
 
 class UserUpdate(BaseModel):
     role: str

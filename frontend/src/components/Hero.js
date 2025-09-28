@@ -39,7 +39,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight"
+          className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -49,7 +49,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p 
-          className="text-xl md:text-2xl mb-8 text-muted-foreground max-w-2xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed drop-shadow-lg"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}

@@ -28,18 +28,18 @@ export default function Hero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+      <div className="relative z-10 text-center px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mb-6"
         >
-          <Sparkles className="w-16 h-16 mx-auto mb-4 text-accent-gold" />
+          <Sparkles className="w-12 h-12 sm:w-16 sm:h-16 mx-auto mb-4 text-accent-gold" />
         </motion.div>
 
         <motion.h1 
-          className="text-5xl md:text-7xl font-bold mb-6 leading-tight text-white drop-shadow-2xl"
+          className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 leading-tight text-white drop-shadow-2xl"
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
@@ -49,7 +49,7 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p 
-          className="text-xl md:text-2xl mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed drop-shadow-lg"
+          className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 max-w-2xl mx-auto leading-relaxed drop-shadow-lg px-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6 }}
@@ -59,7 +59,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.div 
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-4 justify-center items-center px-4"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -67,14 +67,15 @@ export default function Hero() {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="w-full sm:w-auto"
           >
             <Button 
               size="lg" 
-              className="rounded-full text-lg px-8 py-6 shadow-elevate-xl"
+              className="w-full sm:w-auto rounded-full text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6 shadow-elevate-xl"
               onClick={() => navigate('/auth')}
               data-testid="button-hero-book"
             >
-              <Calendar className="mr-2 h-5 w-5" />
+              <Calendar className="mr-2 h-4 w-4 sm:h-5 sm:w-5" />
               Prendre Rendez-vous
             </Button>
           </motion.div>
@@ -82,11 +83,12 @@ export default function Hero() {
           <motion.div
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
+            className="w-full sm:w-auto"
           >
             <Button 
               variant="outline" 
               size="lg" 
-              className="rounded-full text-lg px-8 py-6"
+              className="w-full sm:w-auto rounded-full text-base sm:text-lg px-6 sm:px-8 py-4 sm:py-6"
               onClick={scrollToGallery}
               data-testid="button-hero-gallery"
             >
@@ -95,9 +97,9 @@ export default function Hero() {
           </motion.div>
         </motion.div>
 
-        {/* Floating Animation Elements */}
+        {/* Floating Animation Elements - Hidden on small screens */}
         <motion.div
-          className="absolute top-20 left-10 w-4 h-4 bg-accent-gold rounded-full opacity-60"
+          className="hidden sm:block absolute top-20 left-10 w-4 h-4 bg-accent-gold rounded-full opacity-60"
           animate={{ 
             y: [0, -20, 0],
             scale: [1, 1.2, 1],
@@ -109,7 +111,7 @@ export default function Hero() {
           }}
         />
         <motion.div
-          className="absolute bottom-32 right-16 w-6 h-6 bg-primary rounded-full opacity-40"
+          className="hidden sm:block absolute bottom-32 right-16 w-6 h-6 bg-primary rounded-full opacity-40"
           animate={{ 
             y: [0, 15, 0],
             scale: [1, 0.8, 1],
@@ -125,13 +127,13 @@ export default function Hero() {
 
       {/* Scroll Indicator */}
       <motion.div 
-        className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
+        className="absolute bottom-6 sm:bottom-8 left-1/2 transform -translate-x-1/2"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.5 }}
       >
         <motion.div
-          className="w-1 h-8 bg-muted-foreground/50 rounded-full"
+          className="w-1 h-6 sm:h-8 bg-muted-foreground/50 rounded-full"
           animate={{ scaleY: [1, 1.5, 1] }}
           transition={{ duration: 2, repeat: Infinity }}
         />

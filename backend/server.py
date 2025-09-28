@@ -34,10 +34,19 @@ app.add_middleware(
 
 # Database connection (fallback to in-memory storage if MongoDB is not available)
 try:
-    client = MongoClient(MONGO_URL, serverSelectionTimeoutMS=2000)
+    # Configuration spécifique pour MongoDB Atlas
+    client = MongoClient(
+        MONGO_URL, 
+        serverSelectionTimeoutMS=10000,
+        connectTimeoutMS=10000,
+        socketTimeoutMS=10000,
+        tls=True,
+        tlsAllowInvalidCertificates=True,
+        retryWrites=True
+    )
     client.server_info()  # Test connection
     db = client.am_beauty
-    print("Connected to MongoDB")
+    print("✅ Connected to MongoDB Atlas successfully!")
 except Exception as e:
     print(f"MongoDB not available, using in-memory storage: {e}")
     # Simple in-memory storage as fallback

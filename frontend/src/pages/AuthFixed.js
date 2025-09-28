@@ -12,7 +12,7 @@ export default function AuthFixed() {
   const { toast } = useToast();
   const [activeTab, setActiveTab] = useState('login');
   const [loginData, setLoginData] = useState({ email: "", password: "" });
-  const [registerData, setRegisterData] = useState({ username: "", email: "", password: "" });
+  const [registerData, setRegisterData] = useState({ username: "", email: "", password: "", instagram: "" });
   const [loading, setLoading] = useState(false);
 
   const handleLogin = async (e) => {

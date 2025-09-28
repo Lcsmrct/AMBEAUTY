@@ -101,7 +101,7 @@ export default function Services() {
                       {service.duration}
                     </div>
                     <div className="flex items-center gap-1">
-                      <Star className="w-4 h-4 fill-accent-gold text-accent-gold" />
+                      <Star className="w-4 h-4 fill-pink-300 text-pink-300" />
                       <span className="text-sm font-medium">{service.rating}</span>
                     </div>
                   </div>

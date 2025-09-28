@@ -70,7 +70,7 @@ function ProtectedRoute({ children }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/auth" element={<AuthFixed />} />
       <Route 
         path="/client" 

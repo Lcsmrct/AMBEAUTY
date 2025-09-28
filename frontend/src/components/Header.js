@@ -53,12 +53,12 @@ export default function Header() {
             {[
               { key: "accueil", label: "Accueil" },
               { key: "tarifs", label: "Tarifs" },
-              { key: "gallery", label: "Galerie" },
+              { key: "galerie", label: "Galerie" },
               { key: "avis", label: "Avis" }
             ].map((item, index) => (
               <motion.button
                 key={item.key}
-                onClick={() => scrollToSection(item.key)}
+                onClick={() => navigateToPage(item.key)}
                 className="text-foreground hover:text-primary transition-colors"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}

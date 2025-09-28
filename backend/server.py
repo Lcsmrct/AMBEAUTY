@@ -169,7 +169,7 @@ class TimeSlot(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     date: str  # YYYY-MM-DD format
     time: str  # HH:MM format
-    service: str  # Type of service
+    service: str = "Tous services"  # Service universel par défaut
     is_available: bool = True
     is_booked: bool = False
     booking_id: Optional[str] = None
@@ -178,7 +178,7 @@ class TimeSlot(BaseModel):
 class TimeSlotCreate(BaseModel):
     date: str
     time: str
-    service: str
+    service: str = "Tous services"
 
 class TimeSlotUpdate(BaseModel):
     is_available: Optional[bool] = None

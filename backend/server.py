@@ -20,8 +20,8 @@ UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
 # Create uploads directory
 Path(UPLOAD_DIR).mkdir(exist_ok=True)
 
-# Initialize FastAPI
-app = FastAPI(title="AM.BEAUTYY2 API", version="1.0.0")
+# Initialize FastAPI (lifespan will be defined later)
+app = None
 
 # Add CORS middleware
 app.add_middleware(

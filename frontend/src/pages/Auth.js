@@ -148,7 +148,7 @@ export default function Auth() {
                   </Button>
                   
                   <p className="text-sm text-muted-foreground text-center">
-                    Admin test: admin@example.com / Admin123!
+                    Compte test: admin@ambeauty.com / admin123456
                   </p>
                 </form>
               </TabsContent>

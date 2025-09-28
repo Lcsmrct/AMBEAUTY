@@ -46,7 +46,8 @@ except Exception as e:
             self.collections = {
                 'users': [],
                 'bookings': [],
-                'media': []
+                'media': [],
+                'time_slots': []
             }
         
         def __getattr__(self, name):

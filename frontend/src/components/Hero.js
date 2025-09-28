@@ -19,8 +19,8 @@ export default function Hero() {
       {/* Hero Background Image */}
       <div className="absolute inset-0">
         <img 
-          src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwyfHxiZWF1dHklMjBzYWxvbnxlbnwwfHx8fDE3NTkwNjEwMTV8MA&ixlib=rb-4.1.0&q=85"
-          alt="Salon de beauté professionnel"
+          src="https://customer-assets.emergentagent.com/job_5dcdd295-159e-4d7a-b11d-f7a440a23312/artifacts/vhl8rzsa_image.png"
+          alt="Extensions de cils - Service professionnel AM.BEAUTYY2"
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-black/40" />

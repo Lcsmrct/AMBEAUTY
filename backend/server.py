@@ -137,6 +137,10 @@ class UserRegister(BaseModel):
 class UserUpdate(BaseModel):
     role: str
 
+class UserProfileUpdate(BaseModel):
+    username: Optional[str] = None
+    instagram: Optional[str] = None
+
 class Booking(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     user_id: str

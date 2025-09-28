@@ -6,6 +6,8 @@
 body {
   font-family: 'Inter', sans-serif;
   line-height: 1.6;
+  margin: 0;
+  padding: 0;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -15,42 +17,96 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Custom utility classes */
 .hover-elevate {
-  @apply transition-all duration-300 hover:shadow-elevate-md hover:scale-[1.02];
+  transition: all 0.3s ease;
+}
+
+.hover-elevate:hover {
+  transform: scale(1.02);
+  box-shadow: 0px 8px 10px -1px rgba(0, 0, 0, 0.08);
 }
 
 .text-gradient {
-  @apply bg-gradient-to-r from-primary to-accent-gold bg-clip-text text-transparent;
+  background: linear-gradient(to right, hsl(0, 85%, 59%), hsl(48, 100%, 52%));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Button variants */
 .btn {
-  @apply px-6 py-3 rounded-full font-medium transition-all duration-300;
+  padding: 0.75rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .btn-primary {
-  @apply bg-primary text-primary-foreground hover:bg-primary/90 hover:scale-105;
+  background-color: hsl(0, 85%, 59%);
+  color: hsl(0, 0%, 98%);
+}
+
+.btn-primary:hover {
+  background-color: hsl(0, 85%, 54%);
+  transform: scale(1.05);
 }
 
 .btn-secondary {
-  @apply bg-secondary text-secondary-foreground hover:bg-secondary/90 hover:scale-105;
+  background-color: hsl(0, 0%, 87%);
+  color: hsl(222, 75%, 10%);
+}
+
+.btn-secondary:hover {
+  background-color: hsl(0, 0%, 82%);
+  transform: scale(1.05);
 }
 
 .btn-outline {
-  @apply border border-primary text-primary hover:bg-primary hover:text-primary-foreground hover:scale-105;
+  border: 1px solid hsl(0, 85%, 59%);
+  color: hsl(0, 85%, 59%);
+  background: transparent;
+}
+
+.btn-outline:hover {
+  background-color: hsl(0, 85%, 59%);
+  color: hsl(0, 0%, 98%);
+  transform: scale(1.05);
 }
 
 /* Card variants */
 .card {
-  @apply bg-card border border-border rounded-lg shadow-elevate;
+  background-color: hsl(0, 0%, 95%);
+  border: 1px solid hsl(0, 0%, 88%);
+  border-radius: 0.5rem;
+  box-shadow: 0px 2px 0px 0px rgba(0, 0, 0, 0.03);
 }
 
-.card-hover {
-  @apply hover-elevate;
+.card-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 8px 10px -1px rgba(0, 0, 0, 0.08);
 }
 
 /* Input styles */
 .input {
-  @apply w-full px-4 py-3 rounded-lg border border-input bg-background text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-ring focus:border-transparent transition-colors;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  border: 1px solid hsl(0, 0%, 80%);
+  background-color: hsl(0, 0%, 97%);
+  color: hsl(222, 75%, 10%);
+  transition: border-color 0.3s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: hsl(0, 85%, 59%);
+  box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
+}
+
+.input::placeholder {
+  color: hsl(222, 40%, 25%);
 }
 
 /* Animation utilities */

@@ -23,10 +23,13 @@ export default function Auth() {
     if (result.success) {
       toast({ title: "Connexion réussie", description: "Redirection vers votre espace..." });
       setTimeout(() => {
-        // Navigation will be handled by the auth context
-        navigate('/');
-        window.location.reload(); // Refresh to update auth state
-      }, 1000);
+        if (result.user && result.user.role === 'admin') {
+          navigate('/admin');
+        } else {
+          navigate('/client');
+        }
+        window.location.reload();
+      }, 1500);
     } else {
       toast({ 
         title: "Erreur de connexion", 

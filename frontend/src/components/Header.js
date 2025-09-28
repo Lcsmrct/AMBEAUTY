@@ -23,12 +23,9 @@ export default function Header() {
     }
   };
 
-  const scrollToSection = (sectionId) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-      setIsMenuOpen(false);
-    }
+  const navigateToPage = (page) => {
+    navigate(`/${page}`);
+    setIsMenuOpen(false);
   };
 
   return (

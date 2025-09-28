@@ -121,9 +121,10 @@ export default function ClientDashboard() {
         variant: "success"
       });
       
-      // Reset form and refresh bookings
-      setFormData({ service: "", date: "", time: "", notes: "" });
+      // Reset form and refresh data
+      setFormData({ service: "", date: "", time: "", notes: "", selectedSlotId: "" });
       fetchBookings();
+      fetchAvailableSlots();
     } catch (error) {
       console.error('Error creating booking:', error);
       toast({

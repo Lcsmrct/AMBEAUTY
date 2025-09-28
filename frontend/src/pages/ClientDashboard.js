@@ -72,7 +72,24 @@ export default function ClientDashboard() {
   };
 
   const handleInputChange = (field, value) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData(prev => ({ 
+      ...prev, 
+      [field]: value,
+      // Reset time when service or date changes to force reselection
+      ...(field === 'service' || field === 'date' ? { time: '', selectedSlotId: '' } : {})
+    }));
+  };
+
+  // Get available time slots for the selected service and date
+  const getAvailableTimesForSelectedServiceAndDate = () => {
+    if (!formData.service || !formData.date) return [];
+    
+    return availableSlots.filter(slot => 
+      slot.service === formData.service && 
+      slot.date === formData.date &&
+      slot.is_available &&
+      !slot.is_booked
+    );
   };
 
   const handleSubmit = async (e) => {

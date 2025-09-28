@@ -89,29 +89,29 @@ export default function Gallery() {
     }
   }, [selectedCategory, allMedia]);
 
-  const openModal = (image) => {
-    setSelectedImage(image);
+  const openModal = (media) => {
+    setSelectedMedia(media);
     setIsModalOpen(true);
   };
 
   const closeModal = () => {
     setIsModalOpen(false);
-    setSelectedImage(null);
+    setSelectedMedia(null);
   };
 
-  const navigateImage = (direction) => {
-    if (!selectedImage) return;
+  const navigateMedia = (direction) => {
+    if (!selectedMedia) return;
     
-    const currentIndex = images.findIndex(img => img.id === selectedImage.id);
+    const currentIndex = filteredMedia.findIndex(item => item.id === selectedMedia.id);
     let newIndex;
     
     if (direction === 'prev') {
-      newIndex = currentIndex > 0 ? currentIndex - 1 : images.length - 1;
+      newIndex = currentIndex > 0 ? currentIndex - 1 : filteredMedia.length - 1;
     } else {
-      newIndex = currentIndex < images.length - 1 ? currentIndex + 1 : 0;
+      newIndex = currentIndex < filteredMedia.length - 1 ? currentIndex + 1 : 0;
     }
     
-    setSelectedImage(images[newIndex]);
+    setSelectedMedia(filteredMedia[newIndex]);
   };
 
   if (loading) {

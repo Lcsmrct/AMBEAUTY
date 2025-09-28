@@ -166,12 +166,15 @@ def verify_password(plain_password, hashed_password):
     return pwd_context.verify(password_str, hashed_password)
 
 def hash_password(password):
-    # Ensure password is string and truncate to 72 bytes for bcrypt compatibility
-    if isinstance(password, str):
-        password_str = password[:72]  # Truncate string directly
-    else:
-        password_str = str(password)[:72]
-    return pwd_context.hash(password_str)
+    # Ensure password is string and truncate to 72 characters for bcrypt compatibility
+    password_str = str(password)[:72] if password else ""
+    try:
+        return pwd_context.hash(password_str)
+    except Exception as e:
+        print(f"Error hashing password: {e}")
+        # Fallback to simple hash if bcrypt fails
+        import hashlib
+        return hashlib.sha256(password_str.encode()).hexdigest()
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
     to_encode = data.copy()

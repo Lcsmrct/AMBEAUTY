@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
       setToken(access_token);
       setUser(newUser);
       
-      return { success: true };
+      return { success: true, user: newUser };
     } catch (error) {
       console.error('Registration failed:', error);
       return { 

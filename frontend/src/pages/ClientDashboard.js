@@ -5,7 +5,7 @@ import { Calendar, Clock, LogOut, Plus, CheckCircle, XCircle, Clock as ClockIcon
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../hooks/useToast';
-import { bookingAPI } from '../services/api';
+import { bookingAPI, timeSlotsAPI } from '../services/api';
 
 const services = [
   "Manucure - Pose américaine/Unie (25€)",

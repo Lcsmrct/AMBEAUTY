@@ -248,7 +248,7 @@ export default function ClientDashboard() {
                           </SelectOption>
                           {formData.service && [...new Set(
                             availableSlots
-                              .filter(slot => slot.service === formData.service)
+                              .filter(slot => slot.is_available && !slot.is_booked)
                               .map(slot => slot.date)
                           )].map((date) => (
                             <SelectOption key={date} value={date}>

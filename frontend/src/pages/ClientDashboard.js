@@ -30,6 +30,11 @@ export default function ClientDashboard() {
   const [loading, setLoading] = useState(false);
   const [bookingsLoading, setBookingsLoading] = useState(true);
   const [slotsLoading, setSlotsLoading] = useState(true);
+  const [profileData, setProfileData] = useState({
+    username: user?.username || '',
+    instagram: user?.instagram || ''
+  });
+  const [profileLoading, setProfileLoading] = useState(false);
 
   useEffect(() => {
     if (!user) {

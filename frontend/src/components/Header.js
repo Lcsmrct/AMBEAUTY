@@ -53,18 +53,23 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {["services", "gallery", "contact"].map((item, index) => (
+            {[
+              { key: "accueil", label: "Accueil" },
+              { key: "tarifs", label: "Tarifs" },
+              { key: "gallery", label: "Galerie" },
+              { key: "avis", label: "Avis" }
+            ].map((item, index) => (
               <motion.button
-                key={item}
-                onClick={() => scrollToSection(item)}
-                className="text-foreground hover:text-primary transition-colors capitalize"
+                key={item.key}
+                onClick={() => scrollToSection(item.key)}
+                className="text-foreground hover:text-primary transition-colors"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 + 0.2 }}
                 whileHover={{ y: -2 }}
-                data-testid={`link-${item}`}
+                data-testid={`link-${item.key}`}
               >
-                {item}
+                {item.label}
               </motion.button>
             ))}
           </nav>

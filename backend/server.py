@@ -156,6 +156,26 @@ class MediaItem(BaseModel):
     category: str = "general"
     uploaded_at: datetime = Field(default_factory=datetime.utcnow)
 
+class TimeSlot(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    date: str  # YYYY-MM-DD format
+    time: str  # HH:MM format
+    service: str  # Type of service
+    is_available: bool = True
+    is_booked: bool = False
+    booking_id: Optional[str] = None
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+class TimeSlotCreate(BaseModel):
+    date: str
+    time: str
+    service: str
+
+class TimeSlotUpdate(BaseModel):
+    is_available: Optional[bool] = None
+    is_booked: Optional[bool] = None
+    booking_id: Optional[str] = None
+
 # Helper functions
 def verify_password(plain_password, hashed_password):
     # Ensure password is string and truncate to 72 characters for bcrypt compatibility

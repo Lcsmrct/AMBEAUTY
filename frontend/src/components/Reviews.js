@@ -29,7 +29,7 @@ export default function Reviews() {
           viewport={{ once: true }}
         >
           <div className="bg-card rounded-lg p-12 shadow-lg text-center max-w-md mx-auto">
-            <Construction className="w-16 h-16 text-accent-gold mx-auto mb-6" />
+            <Construction className="w-16 h-16 text-pink-300 mx-auto mb-6" />
             <h3 className="text-2xl font-bold mb-4 text-foreground">
               En Construction
             </h3>

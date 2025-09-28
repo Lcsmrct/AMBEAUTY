@@ -55,6 +55,22 @@ export default function ClientDashboard() {
     }
   };
 
+  const fetchAvailableSlots = async () => {
+    try {
+      const response = await timeSlotsAPI.getAvailable();
+      setAvailableSlots(response.data);
+    } catch (error) {
+      console.error('Error fetching available slots:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les créneaux disponibles",
+        variant: "error"
+      });
+    } finally {
+      setSlotsLoading(false);
+    }
+  };
+
   const handleInputChange = (field, value) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };

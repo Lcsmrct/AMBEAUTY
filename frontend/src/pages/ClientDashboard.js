@@ -8,9 +8,9 @@ import { useToast } from '../hooks/useToast';
 import { bookingAPI, timeSlotsAPI, authAPI } from '../services/api';
 
 const services = [
-  "Nail Art",
-  "Soins des Pieds",
-  "Pose en gel",
+  "Pose américaine/unie",
+  "Pose américaine/french/chargée", 
+  "Vernis semi-permanent pieds/mains",
   "Extension de cils"
 ];
 

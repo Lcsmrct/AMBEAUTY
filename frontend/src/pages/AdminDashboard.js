@@ -42,6 +42,23 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchTimeSlots = async () => {
+    setSlotsLoading(true);
+    try {
+      const response = await timeSlotsAPI.getAll();
+      setTimeSlots(response.data);
+    } catch (error) {
+      console.error('Error fetching time slots:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les créneaux",
+        variant: "error"
+      });
+    } finally {
+      setSlotsLoading(false);
+    }
+  };
+
   const updateBookingStatus = async (bookingId, newStatus) => {
     try {
       await bookingAPI.updateStatus(bookingId, newStatus);

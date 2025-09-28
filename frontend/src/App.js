@@ -3,10 +3,10 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import { ToastProvider } from './hooks/useToast';
 import Header from './components/Header';
-import Hero from './components/Hero';
+import Home from './components/Home';
 import Services from './components/Services';
 import Gallery from './components/Gallery';
-import Contact from './components/Contact';
+import Reviews from './components/Reviews';
 import Footer from './components/Footer';
 import AuthFixed from './pages/AuthFixed';
 import ClientDashboard from './pages/ClientDashboard';

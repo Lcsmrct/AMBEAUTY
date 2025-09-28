@@ -52,9 +52,9 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>Nail Art - 35€</li>
-              <li>Soins des Pieds - 25€</li>
-              <li>Pose en gel - 30€</li>
+              <li>Pose américaine/unie - 25€</li>
+              <li>Pose américaine/french/chargée - 30€</li>
+              <li>Vernis semi-permanent - 20€</li>
               <li>Extension de cils - 40€</li>
             </ul>
           </div>

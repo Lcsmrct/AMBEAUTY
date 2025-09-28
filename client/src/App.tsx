@@ -7,9 +7,11 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
 import Gallery from "@/components/Gallery";
-import BookingForm from "@/components/BookingForm";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Auth from "@/pages/Auth";
+import ClientDashboard from "@/pages/ClientDashboard";
+import AdminDashboard from "@/pages/AdminDashboard";
 import NotFound from "@/pages/not-found";
 
 function Home() {
@@ -20,7 +22,6 @@ function Home() {
         <Hero />
         <Services />
         <Gallery />
-        <BookingForm />
         <Contact />
       </main>
       <Footer />
@@ -32,6 +33,9 @@ function Router() {
   return (
     <Switch>
       <Route path="/" component={Home} />
+      <Route path="/auth" component={Auth} />
+      <Route path="/client" component={ClientDashboard} />
+      <Route path="/admin" component={AdminDashboard} />
       {/* Fallback to 404 */}
       <Route component={NotFound} />
     </Switch>

@@ -26,7 +26,7 @@ export default function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
-            {["Services", "Gallery", "Book Now", "Contact"].map((item, index) => (
+            {["Services", "Gallery", "Contact"].map((item, index) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
@@ -51,9 +51,10 @@ export default function Header() {
           >
             <Button 
               className="rounded-full bg-primary hover:bg-primary/90"
+              onClick={() => window.location.href = "/auth"}
               data-testid="button-book-appointment"
             >
-              Book Appointment
+              Se connecter
             </Button>
           </motion.div>
 
@@ -77,7 +78,7 @@ export default function Header() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
           >
-            {["Services", "Gallery", "Book Now", "Contact"].map((item) => (
+            {["Services", "Gallery", "Contact"].map((item) => (
               <motion.a
                 key={item}
                 href={`#${item.toLowerCase().replace(" ", "-")}`}
@@ -91,9 +92,10 @@ export default function Header() {
             ))}
             <Button 
               className="w-full mt-4 rounded-full bg-primary"
+              onClick={() => window.location.href = "/auth"}
               data-testid="button-mobile-book"
             >
-              Book Appointment
+              Se connecter
             </Button>
           </motion.nav>
         )}

@@ -10,21 +10,7 @@ import AuthFixed from './pages/AuthFixed';
 import ClientDashboard from './pages/ClientDashboard';
 import AdminDashboard from './pages/AdminDashboard';
 
-// Home page component
-function HomePage() {
-  return (
-    <div className="min-h-screen">
-      <Header />
-      <main>
-        <Home />
-        <Services />
-        <Gallery />
-        <Reviews />
-      </main>
-      <Footer />
-    </div>
-  );
-}
+// This component is no longer needed as we have separate pages
 
 // Protected route component for admin
 function AdminRoute({ children }) {

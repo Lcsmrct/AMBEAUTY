@@ -313,7 +313,8 @@ async def get_me(current_user: dict = Depends(get_current_user)):
         "id": current_user["id"],
         "username": current_user["username"],
         "email": current_user["email"],
-        "role": current_user["role"]
+        "role": current_user["role"],
+        "instagram": current_user["instagram"]
     }
 
 # User management routes (admin only)

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Input, Label, Textarea, Select, SelectOption, Badge, Tabs, TabsList, TabsTrigger, TabsContent, LoadingSpinner } from '../components/ui';
-import { Calendar, Clock, LogOut, Plus, CheckCircle, XCircle, Clock as ClockIcon, MessageSquare } from 'lucide-react';
+import { Calendar, Clock, LogOut, Plus, CheckCircle, XCircle, Clock as ClockIcon, MessageSquare, User, Instagram } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../hooks/useToast';

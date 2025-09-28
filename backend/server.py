@@ -229,8 +229,11 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     return user
 
 # Initialize admin user
-@app.on_event("startup")
-async def startup_event():
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
     print("Backend API started successfully")
     # Create admin user if not exists
     admin_user = db.users.find_one({"email": "admin@ambeauty.com"})
@@ -243,6 +246,8 @@ async def startup_event():
         )
         db.users.insert_one(admin.dict())
         print("Admin user created: admin@ambeauty.com / admin123456")
+    yield
+    # Shutdown (if needed)
 
 # Authentication routes
 @app.post("/api/auth/register")

@@ -25,8 +25,10 @@ export default function ClientDashboard() {
     notes: ""
   });
   const [bookings, setBookings] = useState([]);
+  const [availableSlots, setAvailableSlots] = useState([]);
   const [loading, setLoading] = useState(false);
   const [bookingsLoading, setBookingsLoading] = useState(true);
+  const [slotsLoading, setSlotsLoading] = useState(true);
 
   useEffect(() => {
     if (!user) {

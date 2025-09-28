@@ -20,17 +20,7 @@ UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
 # Create uploads directory
 Path(UPLOAD_DIR).mkdir(exist_ok=True)
 
-# Initialize FastAPI (lifespan will be defined later)
-app = None
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# FastAPI will be initialized later after lifespan definition
 
 # Database connection (fallback to in-memory storage if MongoDB is not available)
 try:

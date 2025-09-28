@@ -41,33 +41,53 @@ const portfolioImages = [
 ];
 
 export default function Gallery() {
-  const [images, setImages] = useState([]);
+  const [allMedia, setAllMedia] = useState([]);
+  const [filteredMedia, setFilteredMedia] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [selectedMedia, setSelectedMedia] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
+  const [categories] = useState([
+    { id: 'all', name: 'Tout voir' },
+    { id: 'french-manucure', name: 'French Manucure' },
+    { id: 'nail-art', name: 'Nail Art' },
+    { id: 'pose-gel', name: 'Pose Gel' },
+    { id: 'extensions-cils', name: 'Extensions Cils' }
+  ]);
 
   useEffect(() => {
-    const fetchImages = async () => {
+    const fetchMedia = async () => {
       try {
         const response = await mediaAPI.getAll();
-        const mediaImages = response.data.map(item => ({
+        const mediaItems = response.data.map(item => ({
           ...item,
           url: `${process.env.REACT_APP_BACKEND_URL}/uploads/${item.filename}`
         }));
         
-        // If no images from API, use placeholders
-        setImages(mediaImages.length > 0 ? mediaImages : placeholderImages);
+        // Combine API media with portfolio images
+        const combinedMedia = [...portfolioImages, ...mediaItems];
+        setAllMedia(combinedMedia);
+        setFilteredMedia(combinedMedia);
       } catch (error) {
-        console.error('Error fetching images:', error);
-        // Fallback to placeholder images
-        setImages(placeholderImages);
+        console.error('Error fetching media:', error);
+        // Use only portfolio images if API fails
+        setAllMedia(portfolioImages);
+        setFilteredMedia(portfolioImages);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchImages();
+    fetchMedia();
   }, []);
+
+  useEffect(() => {
+    if (selectedCategory === 'all') {
+      setFilteredMedia(allMedia);
+    } else {
+      setFilteredMedia(allMedia.filter(item => item.category === selectedCategory));
+    }
+  }, [selectedCategory, allMedia]);
 
   const openModal = (image) => {
     setSelectedImage(image);

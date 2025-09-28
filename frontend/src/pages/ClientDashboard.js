@@ -22,7 +22,8 @@ export default function ClientDashboard() {
     service: "",
     date: "",
     time: "",
-    notes: ""
+    notes: "",
+    selectedSlotId: ""
   });
   const [bookings, setBookings] = useState([]);
   const [availableSlots, setAvailableSlots] = useState([]);

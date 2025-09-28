@@ -53,9 +53,9 @@ export default function Auth() {
         description: "Redirection vers votre espace client..." 
       });
       setTimeout(() => {
-        navigate('/');
-        window.location.reload(); // Refresh to update auth state
-      }, 1000);
+        navigate('/client');
+        window.location.reload();
+      }, 1500);
     } else {
       toast({ 
         title: "Erreur lors de l'inscription", 

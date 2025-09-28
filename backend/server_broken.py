@@ -6,11 +6,12 @@ from pymongo import MongoClient
 from passlib.context import CryptContext
 from jose import JWTError, jwt
 from datetime import datetime, timedelta
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError
 from typing import Optional, List
 import os
 import uuid
 from pathlib import Path
+import traceback
 
 # Configuration
 MONGO_URL = os.getenv("MONGO_URL", "mongodb://localhost:27017/am_beauty")
@@ -23,7 +24,7 @@ Path(UPLOAD_DIR).mkdir(exist_ok=True)
 # Initialize FastAPI
 app = FastAPI(title="AM.BEAUTYY2 API", version="1.0.0")
 
-# CORS middleware
+# Add CORS middleware
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -87,6 +88,13 @@ except Exception as e:
                         item.update(update['$set'])
                     return type('UpdateResult', (), {'matched_count': 1})()
             return type('UpdateResult', (), {'matched_count': 0})()
+        
+        def delete_one(self, query):
+            for i, item in enumerate(self.data):
+                if all(item.get(k) == v for k, v in query.items()):
+                    del self.data[i]
+                    return type('DeleteResult', (), {'deleted_count': 1})()
+            return type('DeleteResult', (), {'deleted_count': 0})()
     
     class InMemoryCursor:
         def __init__(self, data):
@@ -125,77 +133,22 @@ class UserRegister(BaseModel):
     email: str
     password: str
 
-class Booking(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    user_id: str
-    customer_name: str
-    customer_email: str
-    customer_phone: str
-    service: str
-    date: str
-    time: str
-    notes: str = ""
-    status: str = "pending"  # pending, confirmed, completed, cancelled
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
-class BookingCreate(BaseModel):
-    customer_name: str
-    customer_email: str
-    customer_phone: str
-    service: str
-    time_slot_id: str  # Reference to the time slot
-    notes: str = ""
-
-class BookingUpdate(BaseModel):
-    status: str
-
-class MediaItem(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    filename: str
-    original_name: str
-    category: str = "general"
-    uploaded_at: datetime = Field(default_factory=datetime.utcnow)
-
-class TimeSlot(BaseModel):
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    date: str  # YYYY-MM-DD format
-    time: str  # HH:MM format
-    service: str  # Type of service
-    is_available: bool = True
-    is_booked: bool = False
-    booking_id: Optional[str] = None
-    created_at: datetime = Field(default_factory=datetime.utcnow)
-
-class TimeSlotCreate(BaseModel):
-    date: str
-    time: str
-    service: str
-
-class TimeSlotUpdate(BaseModel):
-    is_available: Optional[bool] = None
-    is_booked: Optional[bool] = None
-    booking_id: Optional[str] = None
-
 # Helper functions
 def verify_password(plain_password, hashed_password):
-    # Ensure password is string and truncate to 72 characters for bcrypt compatibility
     password_str = str(plain_password)[:72] if plain_password else ""
     try:
         return pwd_context.verify(password_str, hashed_password)
     except Exception as e:
         print(f"Error verifying password with bcrypt: {e}")
-        # Fallback to simple hash verification if bcrypt fails
         import hashlib
         return hashlib.sha256(password_str.encode()).hexdigest() == hashed_password
 
 def hash_password(password):
-    # Ensure password is string and truncate to 72 characters for bcrypt compatibility
     password_str = str(password)[:72] if password else ""
     try:
         return pwd_context.hash(password_str)
     except Exception as e:
         print(f"Error hashing password: {e}")
-        # Fallback to simple hash if bcrypt fails
         import hashlib
         return hashlib.sha256(password_str.encode()).hexdigest()
 
@@ -224,62 +177,102 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
     return user
 
 # Initialize admin user
-@app.on_event("startup")
-async def startup_event():
+def init_admin_user():
     print("Backend API started successfully")
-    print("You can create an admin account through registration with role assignment")
+    try:
+        # Create admin user if not exists
+        admin_user = db.users.find_one({"email": "admin@ambeauty.com"})
+        if not admin_user:
+            admin = User(
+                username="admin",
+                email="admin@ambeauty.com", 
+                password=hash_password("admin123456"),
+                role="admin"
+            )
+            db.users.insert_one(admin.dict())
+            print("Admin user created: admin@ambeauty.com / admin123456")
+    except Exception as e:
+        print(f"Error creating admin user: {e}")
+
+# Call init function after db setup
+init_admin_user()
 
 # Authentication routes
 @app.post("/api/auth/register")
 async def register(user_data: UserRegister):
-    # Check if user exists
-    existing_user = db.users.find_one({"email": user_data.email})
-    if existing_user:
-        raise HTTPException(status_code=400, detail="User already exists")
-    
-    # Create new user
-    user = User(
-        username=user_data.username,
-        email=user_data.email,
-        password=hash_password(user_data.password)
-    )
-    
-    db.users.insert_one(user.dict())
-    
-    # Create access token
-    access_token = create_access_token(data={"sub": user.id})
-    
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "role": user.role
+    try:
+        # Validate input data
+        if not user_data.email or not user_data.password or not user_data.username:
+            raise HTTPException(status_code=400, detail="Tous les champs sont requis")
+        
+        if len(user_data.password) < 6:
+            raise HTTPException(status_code=400, detail="Le mot de passe doit contenir au moins 6 caractères")
+        
+        # Check if user exists
+        existing_user = db.users.find_one({"email": user_data.email})
+        if existing_user:
+            raise HTTPException(status_code=400, detail="Un compte avec cet email existe déjà")
+        
+        # Create new user
+        user = User(
+            username=user_data.username,
+            email=user_data.email,
+            password=hash_password(user_data.password)
+        )
+        
+        db.users.insert_one(user.dict())
+        
+        # Create access token
+        access_token = create_access_token(data={"sub": user.id})
+        
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user.id,
+                "username": user.username,
+                "email": user.email,
+                "role": user.role
+            }
         }
-    }
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Registration error: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
 
 @app.post("/api/auth/login")
 async def login(user_data: UserLogin):
-    # Find user
-    user = db.users.find_one({"email": user_data.email})
-    if not user or not verify_password(user_data.password, user["password"]):
-        raise HTTPException(status_code=401, detail="Identifiants incorrects. Vérifiez votre email et mot de passe.")
-    
-    # Create access token
-    access_token = create_access_token(data={"sub": user["id"]})
-    
-    return {
-        "access_token": access_token,
-        "token_type": "bearer",
-        "user": {
-            "id": user["id"],
-            "username": user["username"],
-            "email": user["email"],
-            "role": user["role"]
+    try:
+        # Validate input data
+        if not user_data.email or not user_data.password:
+            raise HTTPException(status_code=400, detail="Email et mot de passe sont requis")
+        
+        # Find user
+        user = db.users.find_one({"email": user_data.email})
+        if not user or not verify_password(user_data.password, user["password"]):
+            raise HTTPException(status_code=401, detail="Identifiants incorrects. Vérifiez votre email et mot de passe.")
+        
+        # Create access token
+        access_token = create_access_token(data={"sub": user["id"]})
+        
+        return {
+            "access_token": access_token,
+            "token_type": "bearer",
+            "user": {
+                "id": user["id"],
+                "username": user["username"],
+                "email": user["email"],
+                "role": user["role"]
+            }
         }
-    }
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Login error: {e}")
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
 
 @app.get("/api/auth/me")
 async def get_me(current_user: dict = Depends(get_current_user)):
@@ -290,99 +283,15 @@ async def get_me(current_user: dict = Depends(get_current_user)):
         "role": current_user["role"]
     }
 
-# Booking routes
-@app.post("/api/bookings")
-async def create_booking(booking_data: BookingCreate, current_user: dict = Depends(get_current_user)):
-    booking = Booking(
-        user_id=current_user["id"],
-        customer_name=booking_data.customer_name,
-        customer_email=booking_data.customer_email,
-        customer_phone=booking_data.customer_phone,
-        service=booking_data.service,
-        date=booking_data.date,
-        time=booking_data.time,
-        notes=booking_data.notes
-    )
-    
-    db.bookings.insert_one(booking.dict())
-    return {"message": "Booking created successfully", "booking_id": booking.id}
-
-@app.get("/api/bookings/me")
-async def get_my_bookings(current_user: dict = Depends(get_current_user)):
-    bookings = list(db.bookings.find({"user_id": current_user["id"]}).sort("created_at", -1))
-    # Remove MongoDB _id field
-    for booking in bookings:
-        booking.pop("_id", None)
-    return bookings
-
-@app.get("/api/bookings")
-async def get_all_bookings(current_user: dict = Depends(get_current_user)):
-    if current_user["role"] != "admin":
-        raise HTTPException(status_code=403, detail="Admin access required")
-    
-    bookings = list(db.bookings.find().sort("created_at", -1))
-    # Remove MongoDB _id field
-    for booking in bookings:
-        booking.pop("_id", None)
-    return bookings
-
-@app.put("/api/bookings/{booking_id}")
-async def update_booking(booking_id: str, booking_update: BookingUpdate, current_user: dict = Depends(get_current_user)):
-    if current_user["role"] != "admin":
-        raise HTTPException(status_code=403, detail="Admin access required")
-    
-    result = db.bookings.update_one(
-        {"id": booking_id},
-        {"$set": {"status": booking_update.status}}
-    )
-    
-    if result.matched_count == 0:
-        raise HTTPException(status_code=404, detail="Booking not found")
-    
-    return {"message": "Booking updated successfully"}
-
-# Media routes
-@app.post("/api/media/upload")
-async def upload_media(file: UploadFile = File(...), category: str = "general", current_user: dict = Depends(get_current_user)):
-    if current_user["role"] != "admin":
-        raise HTTPException(status_code=403, detail="Admin access required")
-    
-    # Generate unique filename
-    file_extension = file.filename.split(".")[-1] if "." in file.filename else "jpg"
-    filename = f"{str(uuid.uuid4())}.{file_extension}"
-    file_path = Path(UPLOAD_DIR) / filename
-    
-    # Save file
-    with open(file_path, "wb") as buffer:
-        content = await file.read()
-        buffer.write(content)
-    
-    # Save to database
-    media_item = MediaItem(
-        filename=filename,
-        original_name=file.filename,
-        category=category
-    )
-    
-    db.media.insert_one(media_item.dict())
-    
-    return {"message": "File uploaded successfully", "filename": filename}
-
-@app.get("/api/media")
-async def get_media():
-    media_items = list(db.media.find().sort("uploaded_at", -1))
-    # Remove MongoDB _id field
-    for item in media_items:
-        item.pop("_id", None)
-    return media_items
-
-# Serve uploaded files
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
-
 # Health check
 @app.get("/api/health")
 async def health_check():
     return {"status": "ok", "message": "AM.BEAUTYY2 API is running"}
+
+# Test route
+@app.get("/")
+async def root():
+    return {"message": "AM.BEAUTYY2 API is running"}
 
 if __name__ == "__main__":
     import uvicorn

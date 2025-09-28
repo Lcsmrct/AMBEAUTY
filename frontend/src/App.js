@@ -71,7 +71,7 @@ function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/auth" element={<AuthTest />} />
+      <Route path="/auth" element={<AuthFixed />} />
       <Route 
         path="/client" 
         element={

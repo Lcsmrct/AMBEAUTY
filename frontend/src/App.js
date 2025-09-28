@@ -54,7 +54,11 @@ function ProtectedRoute({ children }) {
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
+      <Route path="/" element={<AccueilPage />} />
+      <Route path="/accueil" element={<AccueilPage />} />
+      <Route path="/tarifs" element={<TarifsPage />} />
+      <Route path="/galerie" element={<GaleriePage />} />
+      <Route path="/avis" element={<AvisPage />} />
       <Route path="/auth" element={<AuthFixed />} />
       <Route 
         path="/client" 

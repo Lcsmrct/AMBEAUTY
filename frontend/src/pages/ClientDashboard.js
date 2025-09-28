@@ -8,14 +8,10 @@ import { useToast } from '../hooks/useToast';
 import { bookingAPI, timeSlotsAPI } from '../services/api';
 
 const services = [
-  "Manucure - Pose américaine/Unie (25€)",
-  "Manucure - Pose américaine/French/Chargée (30€)", 
-  "Vernis semi-permanent pieds/mains (20€)",
-  "Extension de cils (30€)"
-];
-
-const timeSlots = [
-  "09:00", "10:00", "11:00", "12:00", "14:00", "15:00", "16:00", "17:00", "18:00"
+  "Manucure",
+  "Extension de cils", 
+  "Pose de vernis",
+  "Soin des mains"
 ];
 
 export default function ClientDashboard() {

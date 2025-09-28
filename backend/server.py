@@ -249,6 +249,18 @@ async def lifespan(app: FastAPI):
     yield
     # Shutdown (if needed)
 
+# Initialize FastAPI with lifespan
+app = FastAPI(title="AM.BEAUTYY2 API", version="1.0.0", lifespan=lifespan)
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Authentication routes
 @app.post("/api/auth/register")
 async def register(user_data: UserRegister):

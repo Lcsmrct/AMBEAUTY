@@ -8,10 +8,10 @@ import { useToast } from '../hooks/useToast';
 import { bookingAPI, timeSlotsAPI } from '../services/api';
 
 const services = [
-  "Manucure",
-  "Extension de cils", 
-  "Pose de vernis",
-  "Soin des mains"
+  "Pose américaine/Unie",
+  "Pose en gel",
+  "Vernis semi-permanent pieds/mains", 
+  "Extension de cils"
 ];
 
 export default function ClientDashboard() {

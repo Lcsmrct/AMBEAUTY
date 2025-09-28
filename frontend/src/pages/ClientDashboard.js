@@ -223,7 +223,7 @@ export default function ClientDashboard() {
                         disabled={loading || slotsLoading}
                       >
                         <SelectOption value="">Choisissez votre service</SelectOption>
-                        {[...new Set(availableSlots.map(slot => slot.service))].map((service) => (
+                        {services.map((service) => (
                           <SelectOption key={service} value={service}>
                             {service}
                           </SelectOption>

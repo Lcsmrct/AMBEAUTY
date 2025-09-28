@@ -108,8 +108,8 @@ h1, h2, h3, h4, h5, h6 {
 
 .input:focus {
   outline: none;
-  border-color: hsl(0, 85%, 59%);
-  box-shadow: 0 0 0 2px rgba(255, 59, 48, 0.2);
+  border-color: #d4af37;
+  box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.2);
 }
 
 .input::placeholder {

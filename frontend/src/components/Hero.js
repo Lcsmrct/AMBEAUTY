@@ -45,7 +45,7 @@ export default function Hero() {
           transition={{ duration: 0.8, delay: 0.4 }}
         >
           <span className="font-serif">AM.</span>
-          <span className="text-accent-gold">BEAUTYY2</span>
+          <span className="text-pink-300">BEAUTYY2</span>
         </motion.h1>
 
         <motion.p 

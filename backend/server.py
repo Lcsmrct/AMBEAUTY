@@ -228,12 +228,8 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
         raise HTTPException(status_code=401, detail="User not found")
     return user
 
-# Initialize admin user
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    # Startup
+# Initialize admin user when the app starts
+def init_admin_user():
     print("Backend API started successfully")
     # Create admin user if not exists
     admin_user = db.users.find_one({"email": "admin@ambeauty.com"})
@@ -246,20 +242,9 @@ async def lifespan(app: FastAPI):
         )
         db.users.insert_one(admin.dict())
         print("Admin user created: admin@ambeauty.com / admin123456")
-    yield
-    # Shutdown (if needed)
 
-# Initialize FastAPI with lifespan
-app = FastAPI(title="AM.BEAUTYY2 API", version="1.0.0", lifespan=lifespan)
-
-# Add CORS middleware
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+# Call init function after db setup
+init_admin_user()
 
 # Authentication routes
 @app.post("/api/auth/register")

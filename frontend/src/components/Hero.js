@@ -15,12 +15,16 @@ export default function Hero() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-primary/10 via-background to-accent-gold/10">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 25% 25%, #ff3b30 0%, transparent 50%), radial-gradient(circle at 75% 75%, #ffd60a 0%, transparent 50%)'
-        }} />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Hero Background Image */}
+      <div className="absolute inset-0">
+        <img 
+          src="https://images.unsplash.com/photo-1633681926022-84c23e8cb2d6?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NDk1ODF8MHwxfHNlYXJjaHwyfHxiZWF1dHklMjBzYWxvbnxlbnwwfHx8fDE3NTkwNjEwMTV8MA&ixlib=rb-4.1.0&q=85"
+          alt="Salon de beauté professionnel"
+          className="w-full h-full object-cover"
+        />
+        <div className="absolute inset-0 bg-black/40" />
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/20 via-transparent to-accent-gold/20" />
       </div>
 
       {/* Content */}

@@ -45,7 +45,7 @@ export default function Header() {
             onClick={() => navigate('/')}
           >
             <span className="font-serif">AM.</span>
-            <span className="text-accent-gold">BEAUTYY2</span>
+            <span className="text-pink-300">BEAUTYY2</span>
           </motion.div>
 
           {/* Desktop Navigation */}

@@ -20,7 +20,17 @@ UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
 # Create uploads directory
 Path(UPLOAD_DIR).mkdir(exist_ok=True)
 
-# FastAPI will be initialized later after lifespan definition
+# Initialize FastAPI
+app = FastAPI(title="AM.BEAUTYY2 API", version="1.0.0")
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Database connection (fallback to in-memory storage if MongoDB is not available)
 try:

@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import { useToast } from './hooks/useToast';
+import { ToastProvider } from './hooks/useToast';
 import Header from './components/Header';
 import Hero from './components/Hero';
 import Services from './components/Services';

@@ -148,6 +148,33 @@ export default function ClientDashboard() {
     navigate("/");
   };
 
+  const handleProfileUpdate = async (e) => {
+    e.preventDefault();
+    setProfileLoading(true);
+    
+    try {
+      const response = await authAPI.updateProfile(profileData);
+      toast({
+        title: "Profil mis à jour",
+        description: "Vos informations ont été sauvegardées avec succès",
+        variant: "success"
+      });
+      
+      // Update user context with new data
+      // The user object should be updated through the auth context
+      
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      toast({
+        title: "Erreur",
+        description: error.response?.data?.detail || "Impossible de mettre à jour le profil",
+        variant: "error"
+      });
+    } finally {
+      setProfileLoading(false);
+    }
+  };
+
   const getStatusBadge = (status) => {
     switch (status) {
       case "confirmed":

@@ -15,7 +15,7 @@ export default function AdminDashboard() {
   const [timeSlots, setTimeSlots] = useState([]);
   const [loading, setLoading] = useState(true);
   const [slotsLoading, setSlotsLoading] = useState(false);
-  const [newSlot, setNewSlot] = useState({ date: '', time: '', service: 'Pose américaine/Unie' });
+  const [newSlot, setNewSlot] = useState({ date: '', time: '', service: 'Tous services' });
 
   useEffect(() => {
     if (!user || user.role !== 'admin') {

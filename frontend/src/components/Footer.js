@@ -52,10 +52,10 @@ export default function Footer() {
           <div>
             <h3 className="font-semibold mb-4">Services</h3>
             <ul className="space-y-2 text-muted-foreground">
-              <li>Manucure Américaine</li>
-              <li>French Manucure</li>
-              <li>Vernis Semi-permanent</li>
-              <li>Extensions de Cils</li>
+              <li>Pose américaine/Unie - 25€</li>
+              <li>Pose en gel - 30€</li>
+              <li>Vernis semi-permanent - 20€</li>
+              <li>Extension de cils - 40€</li>
             </ul>
           </div>
 

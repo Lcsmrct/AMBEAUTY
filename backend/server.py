@@ -143,8 +143,7 @@ class BookingCreate(BaseModel):
     customer_email: str
     customer_phone: str
     service: str
-    date: str
-    time: str
+    time_slot_id: str  # Reference to the time slot
     notes: str = ""
 
 class BookingUpdate(BaseModel):

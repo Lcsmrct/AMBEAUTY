@@ -37,6 +37,14 @@ self.addEventListener('activate', (event) => {
 
 // Interception des requêtes
 self.addEventListener('fetch', (event) => {
+  // Ne pas cacher les requêtes POST et les requêtes vers l'API
+  if (event.request.method === 'POST' || 
+      event.request.url.includes('/api/') ||
+      event.request.url.includes('localhost:8001')) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request)
       .then((response) => {

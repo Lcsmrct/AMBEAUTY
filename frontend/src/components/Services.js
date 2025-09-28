@@ -47,7 +47,7 @@ export default function Services() {
   const navigate = useNavigate();
 
   return (
-    <section id="services" className="py-24 bg-background">
+    <section id="tarifs" className="py-24 bg-background">
       <div className="container mx-auto px-4">
         <motion.div 
           className="text-center mb-16"
@@ -57,7 +57,7 @@ export default function Services() {
           viewport={{ once: true }}
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4 font-serif">
-            Nos Services
+            Tarifs
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Traitements de beauté professionnels réalisés avec précision et soin

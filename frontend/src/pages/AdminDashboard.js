@@ -422,10 +422,10 @@ export default function AdminDashboard() {
                           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary"
                           required
                         >
-                          <option value="Manucure">Manucure</option>
+                          <option value="Pose américaine/Unie">Pose américaine/Unie</option>
+                          <option value="Pose en gel">Pose en gel</option>
+                          <option value="Vernis semi-permanent pieds/mains">Vernis semi-permanent pieds/mains</option>
                           <option value="Extension de cils">Extension de cils</option>
-                          <option value="Pose de vernis">Pose de vernis</option>
-                          <option value="Soin des mains">Soin des mains</option>
                         </select>
                       </div>
                       

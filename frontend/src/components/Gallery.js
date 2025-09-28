@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Button, LoadingSpinner } from './ui';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Button, LoadingSpinner, Badge } from './ui';
+import { X, ChevronLeft, ChevronRight, Filter, Play } from 'lucide-react';
 import { mediaAPI } from '../services/api';
 
 // Vos vraies photos de nail art AM.BEAUTYY2

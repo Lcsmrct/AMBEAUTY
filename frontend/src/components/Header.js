@@ -114,12 +114,12 @@ export default function Header() {
             {[
               { key: "accueil", label: "Accueil" },
               { key: "tarifs", label: "Tarifs" },
-              { key: "gallery", label: "Galerie" },
+              { key: "galerie", label: "Galerie" },
               { key: "avis", label: "Avis" }
             ].map((item) => (
               <motion.button
                 key={item.key}
-                onClick={() => scrollToSection(item.key)}
+                onClick={() => navigateToPage(item.key)}
                 className="block w-full text-left py-2 text-foreground hover:text-primary transition-colors"
                 whileHover={{ x: 10 }}
                 data-testid={`link-mobile-${item.key}`}

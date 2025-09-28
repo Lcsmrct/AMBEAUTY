@@ -61,4 +61,13 @@ export const mediaAPI = {
   getAll: () => api.get('/api/media'),
 };
 
+// Time Slots API calls
+export const timeSlotsAPI = {
+  create: (slotData) => api.post('/api/time-slots', slotData),
+  getAll: (params = {}) => api.get('/api/time-slots', { params }),
+  getAvailable: (params = {}) => api.get('/api/time-slots/available', { params }),
+  update: (slotId, updateData) => api.put(`/api/time-slots/${slotId}`, updateData),
+  delete: (slotId) => api.delete(`/api/time-slots/${slotId}`),
+};
+
 export default api;

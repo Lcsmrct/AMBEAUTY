@@ -236,37 +236,65 @@ export default function ClientDashboard() {
                           <Calendar className="w-4 h-4" />
                           Date souhaitée *
                         </Label>
-                        <Input
-                          id="date"
-                          type="date"
+                        <Select
                           value={formData.date}
                           onChange={(e) => handleInputChange('date', e.target.value)}
-                          min={new Date().toISOString().split('T')[0]}
+                          data-testid="select-date"
                           required
-                          data-testid="input-date"
-                          disabled={loading}
-                        />
+                          disabled={loading || slotsLoading || !formData.service}
+                        >
+                          <SelectOption value="">
+                            {!formData.service ? "Choisissez d'abord un service" : "Choisir une date"}
+                          </SelectOption>
+                          {formData.service && [...new Set(
+                            availableSlots
+                              .filter(slot => slot.service === formData.service)
+                              .map(slot => slot.date)
+                          )].map((date) => (
+                            <SelectOption key={date} value={date}>
+                              {new Date(date).toLocaleDateString('fr-FR', { 
+                                weekday: 'long', 
+                                day: 'numeric', 
+                                month: 'long' 
+                              })}
+                            </SelectOption>
+                          ))}
+                        </Select>
                       </div>
 
                       <div className="space-y-2">
                         <Label className="flex items-center gap-2">
                           <Clock className="w-4 h-4" />
-                          Heure souhaitée *
+                          Créneau disponible *
                         </Label>
                         <Select 
-                          value={formData.time} 
-                          onChange={(e) => handleInputChange('time', e.target.value)}
-                          data-testid="select-time"
+                          value={formData.selectedSlotId} 
+                          onChange={(e) => {
+                            const selectedSlot = availableSlots.find(slot => slot.id === e.target.value);
+                            setFormData(prev => ({ 
+                              ...prev, 
+                              selectedSlotId: e.target.value,
+                              time: selectedSlot ? selectedSlot.time : ''
+                            }));
+                          }}
+                          data-testid="select-time-slot"
                           required
-                          disabled={loading}
+                          disabled={loading || slotsLoading || !formData.service || !formData.date}
                         >
-                          <SelectOption value="">Choisir l'heure</SelectOption>
-                          {timeSlots.map((time) => (
-                            <SelectOption key={time} value={time}>
-                              {time}
+                          <SelectOption value="">
+                            {!formData.service || !formData.date ? "Sélectionnez d'abord le service et la date" : "Choisir un créneau"}
+                          </SelectOption>
+                          {getAvailableTimesForSelectedServiceAndDate().map((slot) => (
+                            <SelectOption key={slot.id} value={slot.id}>
+                              {slot.time}
                             </SelectOption>
                           ))}
                         </Select>
+                        {formData.service && formData.date && getAvailableTimesForSelectedServiceAndDate().length === 0 && (
+                          <p className="text-sm text-red-600 mt-1">
+                            Aucun créneau disponible pour cette date. Essayez une autre date.
+                          </p>
+                        )}
                       </div>
                     </div>
 

@@ -99,7 +99,7 @@ export default function Hero() {
 
         {/* Floating Animation Elements - Hidden on small screens */}
         <motion.div
-          className="hidden sm:block absolute top-20 left-10 w-4 h-4 bg-accent-gold rounded-full opacity-60"
+          className="hidden sm:block absolute top-20 left-10 w-4 h-4 bg-pink-300 rounded-full opacity-60"
           animate={{ 
             y: [0, -20, 0],
             scale: [1, 1.2, 1],

@@ -317,6 +317,41 @@ async def get_me(current_user: dict = Depends(get_current_user)):
         "instagram": current_user["instagram"]
     }
 
+@app.put("/api/auth/profile")
+async def update_profile(profile_data: UserProfileUpdate, current_user: dict = Depends(get_current_user)):
+    try:
+        # Create update data
+        update_fields = {}
+        if profile_data.username is not None:
+            update_fields["username"] = profile_data.username
+        if profile_data.instagram is not None:
+            update_fields["instagram"] = profile_data.instagram
+        
+        if not update_fields:
+            raise HTTPException(status_code=400, detail="Aucun champ à mettre à jour")
+        
+        # Update user in database
+        db.users.update_one(
+            {"id": current_user["id"]}, 
+            {"$set": update_fields}
+        )
+        
+        # Get updated user
+        updated_user = db.users.find_one({"id": current_user["id"]})
+        
+        return {
+            "id": updated_user["id"],
+            "username": updated_user["username"],
+            "email": updated_user["email"],
+            "role": updated_user["role"],
+            "instagram": updated_user["instagram"]
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        print(f"Profile update error: {e}")
+        raise HTTPException(status_code=500, detail="Erreur interne du serveur")
+
 # User management routes (admin only)
 @app.put("/api/users/{user_id}")
 async def update_user_role(user_id: str, user_update: UserUpdate, current_user: dict = Depends(get_current_user)):

@@ -194,23 +194,8 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(securit
 # Initialize admin user
 @app.on_event("startup")
 async def startup_event():
-    # Check if admin user exists
-    admin_user = db.users.find_one({"email": "admin@example.com"})
-    if not admin_user:
-        try:
-            admin_data = {
-                "id": str(uuid.uuid4()),
-                "username": "Admin",
-                "email": "admin@example.com",
-                "password": hash_password("Admin123!"),
-                "role": "admin",
-                "created_at": datetime.utcnow()
-            }
-            db.users.insert_one(admin_data)
-            print("Admin user created: admin@example.com / Admin123!")
-        except Exception as e:
-            print(f"Error creating admin user: {e}")
-            print("You can create an admin account manually through registration")
+    print("Backend API started successfully")
+    print("You can create an admin account through registration with role assignment")
 
 # Authentication routes
 @app.post("/api/auth/register")

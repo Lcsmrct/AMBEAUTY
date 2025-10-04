@@ -69,7 +69,7 @@ export default function Reviews() {
       setReviewForm({ booking_id: '', rating: 5, comment: '' });
       loadEligibleBookings(); // Reload to update has_review status
     } catch (error) {
-      addToast(error.response?.data?.detail || 'Erreur lors de l\'envoi de l\'avis', 'error');
+      toast({ title: 'Erreur', description: error.response?.data?.detail || 'Erreur lors de l\'envoi de l\'avis', variant: 'error' });
     } finally {
       setSubmitting(false);
     }

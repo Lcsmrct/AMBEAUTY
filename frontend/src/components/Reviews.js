@@ -39,7 +39,7 @@ export default function Reviews() {
       setStats(statsRes.data);
     } catch (error) {
       console.error('Erreur lors du chargement des avis:', error);
-      addToast('Erreur lors du chargement des avis', 'error');
+      toast({ title: 'Erreur', description: 'Erreur lors du chargement des avis', variant: 'error' });
     } finally {
       setLoading(false);
     }

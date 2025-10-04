@@ -64,7 +64,7 @@ export default function Reviews() {
     setSubmitting(true);
     try {
       await reviewsAPI.create(reviewForm);
-      addToast('Votre avis a été envoyé ! Il sera visible après validation.', 'success');
+      toast({ title: 'Succès', description: 'Votre avis a été envoyé ! Il sera visible après validation.', variant: 'success' });
       setShowAddReviewModal(false);
       setReviewForm({ booking_id: '', rating: 5, comment: '' });
       loadEligibleBookings(); // Reload to update has_review status

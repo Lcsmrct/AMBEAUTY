@@ -26,6 +26,7 @@ export default function AdminDashboard() {
     }
     fetchBookings();
     fetchTimeSlots();
+    fetchPendingReviews();
   }, [user, navigate]);
 
   const fetchBookings = async () => {

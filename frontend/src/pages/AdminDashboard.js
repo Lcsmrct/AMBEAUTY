@@ -587,6 +587,123 @@ export default function AdminDashboard() {
             </motion.div>
           </TabsContent>
 
+          <TabsContent value="reviews">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+            >
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5" />
+                    Modération des Avis
+                    {pendingReviews.length > 0 && (
+                      <Badge variant="error">{pendingReviews.length} en attente</Badge>
+                    )}
+                  </CardTitle>
+                  <CardDescription>
+                    Approuvez ou rejetez les avis clients en attente de publication
+                  </CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {reviewsLoading ? (
+                    <div className="flex justify-center py-8">
+                      <LoadingSpinner />
+                    </div>
+                  ) : pendingReviews.length > 0 ? (
+                    <div className="space-y-4">
+                      {pendingReviews.map((review) => (
+                        <Card key={review.id} className="border-l-4 border-l-yellow-400">
+                          <CardContent className="p-4 sm:p-6">
+                            <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-3 mb-3">
+                                  <div className="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center">
+                                    <span className="font-semibold text-pink-600">
+                                      {review.customer_name.charAt(0).toUpperCase()}
+                                    </span>
+                                  </div>
+                                  <div>
+                                    <p className="font-semibold">{review.customer_name}</p>
+                                    <p className="text-sm text-muted-foreground">{review.service}</p>
+                                  </div>
+                                </div>
+                                
+                                <div className="flex items-center gap-1 mb-3">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star 
+                                      key={i}
+                                      className={`w-4 h-4 ${i < review.rating ? 'fill-pink-400 text-pink-400' : 'text-gray-300'}`}
+                                    />
+                                  ))}
+                                  <span className="ml-2 text-sm text-muted-foreground">
+                                    {review.rating}/5
+                                  </span>
+                                </div>
+                                
+                                <p className="text-gray-700 mb-3 bg-gray-50 p-3 rounded-lg">
+                                  "{review.comment}"
+                                </p>
+                                
+                                <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
+                                  {review.booking_date && review.booking_time && (
+                                    <span className="flex items-center gap-1">
+                                      <Calendar className="w-3 h-3" />
+                                      {review.booking_date} à {review.booking_time}
+                                    </span>
+                                  )}
+                                  <span className="flex items-center gap-1">
+                                    <Clock className="w-3 h-3" />
+                                    {new Date(review.created_at).toLocaleDateString('fr-FR', {
+                                      day: 'numeric',
+                                      month: 'long',
+                                      year: 'numeric',
+                                      hour: '2-digit',
+                                      minute: '2-digit'
+                                    })}
+                                  </span>
+                                </div>
+                              </div>
+                              
+                              <div className="flex sm:flex-col gap-2 sm:ml-4">
+                                <Button
+                                  size="sm"
+                                  onClick={() => handleReviewAction(review.id, 'approved')}
+                                  className="flex items-center gap-2"
+                                  data-testid={`approve-review-${review.id}`}
+                                >
+                                  <CheckCircle className="w-4 h-4" />
+                                  <span className="hidden sm:inline">Approuver</span>
+                                </Button>
+                                <Button
+                                  size="sm"
+                                  variant="destructive"
+                                  onClick={() => handleReviewAction(review.id, 'rejected')}
+                                  className="flex items-center gap-2"
+                                  data-testid={`reject-review-${review.id}`}
+                                >
+                                  <XCircle className="w-4 h-4" />
+                                  <span className="hidden sm:inline">Rejeter</span>
+                                </Button>
+                              </div>
+                            </div>
+                          </CardContent>
+                        </Card>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <Eye className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                      <h3 className="text-lg font-medium mb-2">Aucun avis en attente</h3>
+                      <p>Tous les avis ont été traités.</p>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            </motion.div>
+          </TabsContent>
+
           <TabsContent value="settings">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

@@ -56,7 +56,8 @@ except Exception as e:
                 'users': [],
                 'bookings': [],
                 'media': [],
-                'time_slots': []
+                'time_slots': [],
+                'reviews': []
             }
         
         def __getattr__(self, name):

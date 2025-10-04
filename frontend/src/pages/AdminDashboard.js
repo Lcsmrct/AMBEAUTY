@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, Button, Badge, Tabs, TabsList, TabsTrigger, TabsContent, LoadingSpinner } from '../components/ui';
-import { Calendar, Clock, LogOut, Settings, CheckCircle, XCircle, Clock as ClockIcon, Phone, Mail, TrendingUp, Plus, Trash2, Instagram } from 'lucide-react';
+import { Calendar, Clock, LogOut, Settings, CheckCircle, XCircle, Clock as ClockIcon, Phone, Mail, TrendingUp, Plus, Trash2, Instagram, Star, MessageSquare, Eye } from 'lucide-react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../hooks/useToast';
-import { bookingAPI, timeSlotsAPI } from '../services/api';
+import { bookingAPI, timeSlotsAPI, reviewsAPI } from '../services/api';
 
 export default function AdminDashboard() {
   const navigate = useNavigate();

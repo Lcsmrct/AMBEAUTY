@@ -200,6 +200,26 @@ class TimeSlotUpdate(BaseModel):
     is_booked: Optional[bool] = None
     booking_id: Optional[str] = None
 
+class Review(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    booking_id: str  # Référence à la réservation confirmée
+    customer_name: str  # Prénom du client
+    rating: int  # Note de 1 à 5
+    comment: str
+    service: str  # Service concerné par l'avis
+    status: str = "pending"  # pending, approved, rejected
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    approved_at: Optional[datetime] = None
+
+class ReviewCreate(BaseModel):
+    booking_id: str
+    rating: int
+    comment: str
+
+class ReviewUpdate(BaseModel):
+    status: str  # approved, rejected
+
 # Helper functions
 def verify_password(plain_password, hashed_password):
     password_str = str(plain_password)[:72] if plain_password else ""

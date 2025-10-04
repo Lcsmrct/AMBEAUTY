@@ -71,4 +71,14 @@ export const timeSlotsAPI = {
   delete: (slotId) => api.delete(`/api/time-slots/${slotId}`),
 };
 
+// Reviews API calls
+export const reviewsAPI = {
+  create: (reviewData) => api.post('/api/reviews', reviewData),
+  getApproved: () => api.get('/api/reviews'),
+  getStats: () => api.get('/api/reviews/stats'),
+  getPending: () => api.get('/api/reviews/pending'),
+  updateStatus: (reviewId, status) => api.put(`/api/reviews/${reviewId}`, { status }),
+  getEligibleBookings: () => api.get('/api/reviews/my-eligible-bookings'),
+};
+
 export default api;

@@ -628,6 +628,136 @@ async def get_media_categories():
 # Serve uploaded files
 app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")
 
+# Review routes
+@app.post("/api/reviews")
+async def create_review(review_data: ReviewCreate, current_user: dict = Depends(get_current_user)):
+    # Vérifier que la réservation existe et appartient au user
+    booking = db.bookings.find_one({"id": review_data.booking_id, "user_id": current_user["id"]})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Réservation non trouvée")
+    
+    # Vérifier que la réservation est confirmée ou complétée
+    if booking["status"] not in ["confirmed", "completed"]:
+        raise HTTPException(status_code=400, detail="Seules les réservations confirmées permettent de laisser un avis")
+    
+    # Vérifier qu'aucun avis n'existe déjà pour cette réservation
+    existing_review = db.reviews.find_one({"booking_id": review_data.booking_id})
+    if existing_review:
+        raise HTTPException(status_code=400, detail="Un avis existe déjà pour cette réservation")
+    
+    # Valider la note (1-5)
+    if review_data.rating < 1 or review_data.rating > 5:
+        raise HTTPException(status_code=400, detail="La note doit être entre 1 et 5")
+    
+    # Créer l'avis
+    review = Review(
+        user_id=current_user["id"],
+        booking_id=review_data.booking_id,
+        customer_name=current_user["username"],  # Utilise le prénom du user
+        rating=review_data.rating,
+        comment=review_data.comment,
+        service=booking["service"]
+    )
+    
+    db.reviews.insert_one(review.dict())
+    return {"message": "Avis créé avec succès. Il sera visible après validation par l'équipe.", "review_id": review.id}
+
+@app.get("/api/reviews")
+async def get_approved_reviews():
+    """Récupère tous les avis approuvés pour affichage public"""
+    reviews = list(db.reviews.find({"status": "approved"}).sort("approved_at", -1))
+    # Remove MongoDB _id field
+    for review in reviews:
+        review.pop("_id", None)
+    return reviews
+
+@app.get("/api/reviews/stats")
+async def get_review_stats():
+    """Statistiques des avis approuvés"""
+    approved_reviews = list(db.reviews.find({"status": "approved"}))
+    
+    if not approved_reviews:
+        return {
+            "total_reviews": 0,
+            "average_rating": 0,
+            "rating_distribution": {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+        }
+    
+    total_reviews = len(approved_reviews)
+    total_rating = sum(review["rating"] for review in approved_reviews)
+    average_rating = round(total_rating / total_reviews, 1)
+    
+    # Distribution des notes
+    rating_distribution = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    for review in approved_reviews:
+        rating_distribution[review["rating"]] += 1
+    
+    return {
+        "total_reviews": total_reviews,
+        "average_rating": average_rating,
+        "rating_distribution": rating_distribution
+    }
+
+@app.get("/api/reviews/pending")
+async def get_pending_reviews(current_user: dict = Depends(get_current_user)):
+    """Récupère les avis en attente de modération (admin seulement)"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    reviews = list(db.reviews.find({"status": "pending"}).sort("created_at", -1))
+    # Remove MongoDB _id field et enrichir avec info booking
+    for review in reviews:
+        review.pop("_id", None)
+        # Ajouter info de la réservation
+        booking = db.bookings.find_one({"id": review["booking_id"]})
+        if booking:
+            review["booking_date"] = booking["date"]
+            review["booking_time"] = booking["time"]
+    return reviews
+
+@app.put("/api/reviews/{review_id}")
+async def update_review_status(review_id: str, review_update: ReviewUpdate, current_user: dict = Depends(get_current_user)):
+    """Approuver ou rejeter un avis (admin seulement)"""
+    if current_user["role"] != "admin":
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    if review_update.status not in ["approved", "rejected"]:
+        raise HTTPException(status_code=400, detail="Status must be 'approved' or 'rejected'")
+    
+    update_data = {"status": review_update.status}
+    if review_update.status == "approved":
+        update_data["approved_at"] = datetime.utcnow()
+    
+    result = db.reviews.update_one(
+        {"id": review_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Avis non trouvé")
+    
+    action = "approuvé" if review_update.status == "approved" else "rejeté"
+    return {"message": f"Avis {action} avec succès"}
+
+@app.get("/api/reviews/my-eligible-bookings")
+async def get_my_eligible_bookings(current_user: dict = Depends(get_current_user)):
+    """Récupère les réservations du user éligibles pour un avis"""
+    # Réservations confirmées ou complétées
+    eligible_bookings = list(db.bookings.find({
+        "user_id": current_user["id"],
+        "status": {"$in": ["confirmed", "completed"]}
+    }).sort("created_at", -1))
+    
+    # Retirer celles qui ont déjà un avis
+    bookings_with_reviews = []
+    for booking in eligible_bookings:
+        existing_review = db.reviews.find_one({"booking_id": booking["id"]})
+        booking["has_review"] = existing_review is not None
+        booking.pop("_id", None)
+        bookings_with_reviews.append(booking)
+    
+    return bookings_with_reviews
+
 # Health check
 @app.get("/api/health")
 async def health_check():

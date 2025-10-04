@@ -13,8 +13,10 @@ export default function AdminDashboard() {
   const { toast } = useToast();
   const [bookings, setBookings] = useState([]);
   const [timeSlots, setTimeSlots] = useState([]);
+  const [pendingReviews, setPendingReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [slotsLoading, setSlotsLoading] = useState(false);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
   const [newSlot, setNewSlot] = useState({ date: '', time: '', service: 'Tous services' });
 
   useEffect(() => {

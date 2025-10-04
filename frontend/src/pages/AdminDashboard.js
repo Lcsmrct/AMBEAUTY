@@ -285,10 +285,19 @@ export default function AdminDashboard() {
         </div>
 
         <Tabs defaultValue="bookings">
-          <TabsList className="grid w-full grid-cols-1 sm:grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 mb-8">
             <TabsTrigger value="bookings" className="flex items-center gap-2 text-xs sm:text-sm">
               <Calendar className="w-4 h-4" />
               <span className="hidden sm:inline">Gestion des </span>Réservations
+            </TabsTrigger>
+            <TabsTrigger value="reviews" className="flex items-center gap-2 text-xs sm:text-sm">
+              <MessageSquare className="w-4 h-4" />
+              <span className="hidden sm:inline">Modération </span>Avis
+              {pendingReviews.length > 0 && (
+                <Badge variant="error" className="ml-1 px-1.5 py-0.5 text-xs">
+                  {pendingReviews.length}
+                </Badge>
+              )}
             </TabsTrigger>
             <TabsTrigger value="slots" className="flex items-center gap-2 text-xs sm:text-sm">
               <Clock className="w-4 h-4" />

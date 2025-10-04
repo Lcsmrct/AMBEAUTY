@@ -57,7 +57,7 @@ export default function Reviews() {
   const handleSubmitReview = async (e) => {
     e.preventDefault();
     if (!reviewForm.booking_id || !reviewForm.comment.trim()) {
-      addToast('Veuillez remplir tous les champs', 'error');
+      toast({ title: 'Erreur', description: 'Veuillez remplir tous les champs', variant: 'error' });
       return;
     }
 

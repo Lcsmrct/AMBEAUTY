@@ -20,7 +20,7 @@ export default function Reviews() {
   });
   
   const { isAuthenticated, user } = useAuth();
-  const { addToast } = useToast();
+  const { toast } = useToast();
 
   useEffect(() => {
     loadReviewsAndStats();

@@ -62,6 +62,43 @@ export default function AdminDashboard() {
     }
   };
 
+  const fetchPendingReviews = async () => {
+    setReviewsLoading(true);
+    try {
+      const response = await reviewsAPI.getPending();
+      setPendingReviews(response.data);
+    } catch (error) {
+      console.error('Error fetching pending reviews:', error);
+      toast({
+        title: "Erreur",
+        description: "Impossible de charger les avis en attente",
+        variant: "error"
+      });
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
+  const handleReviewAction = async (reviewId, action) => {
+    try {
+      await reviewsAPI.updateStatus(reviewId, action);
+      setPendingReviews(prev => prev.filter(review => review.id !== reviewId));
+      
+      toast({
+        title: `Avis ${action === 'approved' ? 'approuvé' : 'rejeté'}`,
+        description: `L'avis a été ${action === 'approved' ? 'publié' : 'supprimé'} avec succès`,
+        variant: "success"
+      });
+    } catch (error) {
+      console.error('Error updating review:', error);
+      toast({
+        title: "Erreur",
+        description: `Impossible de ${action === 'approved' ? 'approuver' : 'rejeter'} l'avis`,
+        variant: "error"
+      });
+    }
+  };
+
   const updateBookingStatus = async (bookingId, newStatus) => {
     try {
       await bookingAPI.updateStatus(bookingId, newStatus);
